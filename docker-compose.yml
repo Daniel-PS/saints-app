@@ -1,0 +1,55 @@
+version: '3'
+
+networks:
+  saints-net:
+
+services:
+  app:
+    build:
+      args:
+        user: $USER
+        uid: $UID
+      context: ./
+      dockerfile: Dockerfile
+    image: saints
+    container_name: saints-php
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    ports:
+      - "9000:9000"
+    networks:
+      - saints-net
+
+  mysql:
+    image: mysql:8
+    container_name: saints-mysql
+    restart: unless-stopped
+    ports:
+      - "6833:3306"
+    volumes:
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_DATABASE: saints_db
+      MYSQL_USER: saints_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    networks:
+      - saints-net
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: saints-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - app
+      - mysql
+    networks:
+      - saints-net
