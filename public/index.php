@@ -1,30 +1,17 @@
 <?php
 
-use App\User;
-use App\Connection;
+use App\Router;
 
 require_once '../src/autoload.php';
 require_once '../src/functions.php';
+require_once '../src/constants.php';
 
-$user = new User('Daniel');
-var_dump($user->getName());
+Router::get('/', 'SaintsController@index');
+Router::get('/saints/create', 'SaintsController@create');
+Router::post('/saints/store', 'SaintsController@store');
+Router::get('/saints/show', 'SaintsController@show');
+Router::get('/saints/edit', 'SaintsController@edit');
+Router::patch('/saints/update', 'SaintsController@update');
+Router::delete('/saints/delete', 'SaintsController@destroy');
 
-$search = 'a';
-$search = "%{$search}%";
-
-try {
-    $dbh = Connection::make();
-
-    $stmt = $dbh->prepare('SELECT * FROM users WHERE name LIKE ?');
-    $stmt->execute([ $search ]);
-
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    echo '<pre>';
-    foreach ($users as $user) {
-        var_dump($user);
-    }
-    echo '</pre>';
-} catch (\Throwable $t) {
-    var_dump($t);
-}
+Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
