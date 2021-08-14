@@ -39,6 +39,12 @@ class Router
 
     private static function addRoute(string $method, string $route, string $target)
     {
+        $id = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
+
+        if ($id) {
+            $route = str_replace('{id}', $id, $route);
+        }
+
         static::$routes["{$method}|{$route}"] = $target;
     }
 

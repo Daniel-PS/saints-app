@@ -26,7 +26,7 @@ class SaintsController
 
     public function edit()
     {
-        //
+        view('saints/edit.php');
     }
 
     public function update()
