@@ -47,7 +47,7 @@ class Router
         $route = $requestMethod . '|' . $requestUri;
 
         if (! isset(static::$routes[$route])) {
-            echo '404';
+            view('errors/404.php');
             exit();
         }
 
