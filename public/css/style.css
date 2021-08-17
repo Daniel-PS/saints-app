@@ -155,7 +155,6 @@ button {
 
 #contact {
     text-align: center;
-    background-color: rgb(233, 233, 233);
     box-shadow: black 0px 0px 7px -1px;
 }
 
@@ -165,4 +164,30 @@ button {
     font-weight: normal;
     font-style: italic;
     text-transform: none;
+}
+
+.fas {
+    color: #2f404e;
+}
+
+.user-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: bottom!important;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
+    display: inherit;
+    margin: 10px 0;
+}
+
+.user-photo-remove-button {
+    padding-top: 49px;
+    padding-left: 20px;
+    color: #ff4040;
+    cursor: pointer;
 }
