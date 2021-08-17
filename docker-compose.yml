@@ -7,8 +7,8 @@ services:
   app:
     build:
       args:
-        user: $USER
-        uid: $UID
+        user: daniel
+        uid: 1000
       context: ./
       dockerfile: Dockerfile
     image: saints
@@ -26,7 +26,7 @@ services:
     container_name: saints-mysql
     restart: unless-stopped
     ports:
-      - "6833:3306"
+      - "3306:3306"
     volumes:
       - ./docker-compose/mysql:/docker-entrypoint-initdb.d
     environment:
