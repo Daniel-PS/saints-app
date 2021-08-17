@@ -12,7 +12,6 @@
     <title>Saints</title>
 </head>
 <body>
-    <!-- NAVBAR -->
     <nav class="py-3 navbar navbar-expand-lg fixed-top auto-hiding-navbar">
         <div class="container">
             <a class="navbar-brand" href="#">
@@ -40,4 +39,3 @@
             </div>
         </div>
     </nav>
-    <!-- NAVBAR END-->
