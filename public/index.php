@@ -6,6 +6,8 @@ require_once '../src/autoload.php';
 require_once '../src/functions.php';
 require_once '../src/constants.php';
 
+loadFileToEnvironment(BASE_FOLDER_PATH . '/.env');
+
 Router::get('/', 'HomeController@index');
 Router::get('/saints/create', 'SaintsController@create');
 Router::post('/saints/store', 'SaintsController@store');
@@ -15,7 +17,7 @@ Router::patch('/saints/{id}/update', 'SaintsController@update');
 Router::delete('/saints/{id}/delete', 'SaintsController@destroy');
 
 Router::get('/register', 'UsersController@register');
-Router::post('/register', 'UsersController@doRegister');
+Router::post('/', 'UsersController@doRegister');
 Router::get('/login', 'UsersController@login');
 Router::post('/authenticate', 'UsersController@authenticate');
 

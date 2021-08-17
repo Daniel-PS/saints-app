@@ -6,8 +6,13 @@ use PDO;
 
 class Connection
 {
-    public static function make()
+    public static function make(): PDO
     {
-        return new PDO('mysql:host=saints-mysql;dbname=saints_db', 'saints_user', 'secret');
+        $dbHost = getenv('DB_HOST');
+        $dbName = getenv('DB_DATABASE');
+        $dbUser = getenv('DB_USER');
+        $dbPassword = getenv('DB_PASSWORD');
+
+        return new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPassword);
     }
 }
