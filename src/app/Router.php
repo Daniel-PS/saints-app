@@ -19,27 +19,27 @@ class Router
 
     public static function get(string $route, string $target)
     {
-        static::addRoute('GET', $route, CONTROLLERS_BASE_NAMESPACE . $target);
+        static::addRoute('GET', $route, $target);
     }
 
     public static function post(string $route, string $target)
     {
-        static::addRoute('POST', $route, CONTROLLERS_BASE_NAMESPACE . $target);
+        static::addRoute('POST', $route, $target);
     }
 
     public static function patch(string $route, string $target)
     {
-        static::addRoute('PATCH', $route, CONTROLLERS_BASE_NAMESPACE . $target);
+        static::addRoute('PATCH', $route, $target);
     }
 
     public static function delete(string $route, string $target)
     {
-        static::addRoute('DELETE', $route, CONTROLLERS_BASE_NAMESPACE . $target);
+        static::addRoute('DELETE', $route, $target);
     }
 
     private static function addRoute(string $method, string $route, string $target)
     {
-        static::$routes["{$method}|{$route}"] = $target;
+        static::$routes["{$method}|{$route}"] = CONTROLLERS_BASE_NAMESPACE . $target;
     }
 
     public static function dispatch(string $requestMethod, string $requestUri)
@@ -49,6 +49,7 @@ class Router
         if (! isset(static::$routes[$route])) {
             http_response_code(404);
             view('errors/404.php');
+            exit();
         }
 
         list($controllerClass, $controllerMethod) = explode('@', static::$routes[$route]);
