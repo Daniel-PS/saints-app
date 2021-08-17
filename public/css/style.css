@@ -1,0 +1,169 @@
+@import url('https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap');
+
+body {
+    display: block;
+    overflow-x: hidden;
+    font-family: 'STIX Two Text';
+}
+
+nav {
+    background-color: white;
+}
+
+.navbar-brand img {
+    max-height: 50px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #2f404e;
+}
+
+nav ul li .nav-link {
+    color: #2f404e;
+    text-decoration: none;
+    font-size: 22px;
+    margin: auto 10px;
+}
+
+nav ul li .nav-link:hover {
+    color: #1566a8;
+    text-decoration: none;
+}
+
+section {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+section h1 {
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #2f404e;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+section p {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+button {
+    max-width: 50%;
+    border-radius: 50px !important;
+}
+
+#hero .col {
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+}
+
+#hero .img-col {
+    justify-content: flex-end;
+    margin-top: 100px;
+}
+
+#hero img {
+    max-width: 100% !important;
+    width: 130%;
+}
+
+#hero .card {
+    box-shadow: #f9f9f9 11px 7px 16px;
+    border: 0;
+    text-align: center;
+}
+
+#hero .card-title {
+    color: #2f404e;
+}
+
+#hero .card-title a {
+    color: #2f404e;
+    text-decoration: none;
+}
+
+#hero .card-title a:hover {
+    color: #08406e;
+    text-decoration: none;
+}
+
+#hero .card-text a {
+    text-decoration: none;
+}
+
+.author {
+    color: #2f404e;
+}
+
+#hero .icon {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: bottom!important;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
+}
+
+#about-us {
+    text-align: center;
+}
+
+#about-us h1 {
+    text-align: center;
+    font-style: italic;
+}
+
+#about-us .phrase {
+    font-size: 16pt;
+    font-style: italic;
+}
+
+#about-us .citation-name {
+    font-weight: 500;
+}
+
+#about-us .citation-from {
+    font-style: italic;
+}
+
+#about-us .citation-year {
+    font-size: 10pt;
+    font-style: italic;
+}
+
+#about-us img {
+    width: 450px;
+    height: 500px;
+    object-fit: cover;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: bottom!important;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px 0 rgb(47 64 78);
+}
+
+#contact {
+    text-align: center;
+    background-color: rgb(233, 233, 233);
+    box-shadow: black 0px 0px 7px -1px;
+    padding: 30px 0;
+}
+
+#contact h1 {
+    text-align: center;
+    color: black;
+    font-weight: normal;
+    font-style: italic;
+    text-transform: none;
+}
