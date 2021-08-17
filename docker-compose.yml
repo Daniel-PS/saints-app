@@ -7,7 +7,7 @@ services:
   app:
     build:
       args:
-        user: daniel
+        user: saints-app
         uid: 1000
       context: ./
       dockerfile: Dockerfile
