@@ -1,3 +1,8 @@
+<?php
+    use App\Session;
+    $user = Session::get('user');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +35,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="<?= BASE_URL ?>saints">Saints</a>
                     </li>
-                    <?php if (! App\Session::get('user')) : ?>
+                    <?php if (! $user) : ?>
                         <li class="nav-item">
                             <a class="nav-link" href="<?= BASE_URL ?>register">Register</a>
                         </li>
@@ -38,7 +43,54 @@
                             <a class="nav-link" href="<?= BASE_URL ?>login">Login</a>
                         </li>
                     <?php endif; ?>
+                    <?php if ($user) : ?>
+                        <div class="profile-details">
+                            <?php if ($user->getPhoto()) : ?>
+                                <img src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" class="logged-user-photo" alt="user_photo">
+                            <?php endif; ?>
+                            <span class="admin_name">
+                                Hail Mary,
+                                <a href="<?= BASE_URL . 'users/' . $user->getId() ?>" style="text-decoration: none;">
+                                    <?= $user->getName() ?>!
+                                </a>
+                            </span>
+                            <a href="<?= BASE_URL ?>logout" style="text-decoration: none; color: #2f404e; margin-top: 32px; margin-left: -135px; font-size: 10pt;">Logout</a>
+                        </div>
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <style>
+.profile-details {
+    display: flex;
+    align-items: center;
+    background: #F5F6FA;
+    border: 2px solid #EFEEF1;
+    border-radius: 6px;
+    height: 50px;
+    min-width: 190px;
+    padding: 0 15px 0 2px;
+}
+
+ /* .profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 6px;
+    object-fit: cover;
+} */
+
+ .profile-details .admin_name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+ .profile-details i {
+    font-size: 20px;
+    color: #333;
+}
+    </style>

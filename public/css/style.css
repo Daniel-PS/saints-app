@@ -448,3 +448,16 @@ button {
     box-shadow: 0 6px 20px rgb(0 0 0 / 20%);
     margin-right: 10px;
 }
+
+.logged-user-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    border-radius: 50%;
+    vertical-align: bottom!important;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
+}
