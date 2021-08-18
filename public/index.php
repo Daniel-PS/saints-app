@@ -9,16 +9,18 @@ require_once '../src/constants.php';
 loadFileToEnvironment(BASE_FOLDER_PATH . '/.env');
 
 Router::get('/', 'HomeController@index');
+
+Router::get('/saints', 'SaintsController@index');
 Router::get('/saints/create', 'SaintsController@create');
 Router::post('/saints/store', 'SaintsController@store');
-Router::get('/saints/{id}/show', 'SaintsController@show');
+Router::get('/saints/{id}', 'SaintsController@show');
 Router::get('/saints/{id}/edit', 'SaintsController@edit');
 Router::patch('/saints/{id}/update', 'SaintsController@update');
 Router::delete('/saints/{id}/delete', 'SaintsController@destroy');
 
-Router::get('/register', 'UsersController@register');
-Router::post('/', 'UsersController@doRegister');
-Router::get('/login', 'UsersController@login');
-Router::post('/authenticate', 'UsersController@authenticate');
+Router::get('/register', 'AuthController@register');
+Router::post('/', 'AuthController@doRegister');
+Router::get('/login', 'AuthController@login');
+Router::post('/authenticate', 'AuthController@authenticate');
 
 Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);
