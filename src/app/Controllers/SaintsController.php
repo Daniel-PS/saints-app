@@ -21,7 +21,7 @@ class SaintsController
 
     public function show()
     {
-        //
+        view('saints/show.php');
     }
 
     public function edit()
