@@ -20,14 +20,14 @@
                                                 <img src="" id="photo-img" name="photo" alt="user_photo" class="user-photo">
                                                 <p class="user-photo-remove-button" id="remove-user-photo">Remove</p>
                                             </div>
-                                            <input type="file" name="photo" class="form-control" id="photo-input" accept="image/*">
+                                            <input type="file" name="photo" class="form-control" id="photo-input" accept="image/*" value="">
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="name">Your Name</label>
-                                            <input type="text" name="name" id="name" class="form-control">
+                                            <input type="text" name="name" id="name" class="form-control" value="<?= old('name') ?>">
                                             <div class="invalid-feedback">
                                                 Name is required.
                                             </div>
@@ -37,7 +37,7 @@
                                         <i class="far fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="surname">Your Surname</label>
-                                            <input type="text" name="surname" id="surname" class="form-control">
+                                            <input type="text" name="surname" id="surname" class="form-control" value="<?= old('surname') ?>">
                                             <div class="invalid-feedback">
                                                 Surname is required.
                                             </div>
@@ -47,7 +47,7 @@
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="email">Your Email</label>
-                                            <input type="email" name="email" id="email" class="form-control">
+                                            <input type="email" name="email" id="email" class="form-control" value="<?= old('email') ?>">
                                             <div class="invalid-feedback">
                                                 Invalid email.
                                             </div>

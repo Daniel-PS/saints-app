@@ -11,14 +11,14 @@
                 <form action="<?= BASE_URL ?>authenticate" method="POST" id="form-login">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email">Email address</label>
-                        <input type="email" id="email" class="form-control form-control-lg" placeholder="Enter a valid email address">
+                        <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" value="<?= old('email') ?>">
                         <div class="invalid-feedback">
                             Invalid email.
                         </div>
                     </div>
                     <div class="form-outline mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control form-control-lg" placeholder="Enter password">
+                        <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password">
                     </div>
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-dark btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>

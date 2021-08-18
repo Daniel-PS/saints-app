@@ -22,5 +22,10 @@ Router::get('/register', 'AuthController@register');
 Router::post('/', 'AuthController@doRegister');
 Router::get('/login', 'AuthController@login');
 Router::post('/authenticate', 'AuthController@authenticate');
+Router::get('/logout', 'AuthController@logout');
+
+Router::get('/users/{id}', 'UsersController@show');
+Router::get('/users/{id}/edit', 'UsersController@edit');
+Router::get('/users/', 'UsersController@update');
 
 Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

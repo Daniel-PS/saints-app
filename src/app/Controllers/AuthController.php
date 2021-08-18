@@ -46,32 +46,32 @@ class AuthController
             $this->handleInvalidLogin();
         }
 
-        Session::set('user', $user);
-        Session::set('message', 'Wellcome back, ' . $user->getName() . '!');
+        $user->login();
 
-        redirect('/');
+        redirectWithMessage('/', 'Wellcome back, ' . $user->getName() . '!');
     }
 
     public function doRegister()
     {
-        $request = $_POST;
-        $photo = $_FILES['photo'];
-        $photo['name'] = $this->generateUniqueName($photo['name']);
+        $this->checkIfUserAlreadyExists();
+        $this->passwordsMatch();
 
-        $this->checkPassword($request);
+        if ($_FILES['photo']['name']) {
+            $_FILES['photo']['name'] = $this->generateUniqueName();
+        }
 
         $user = new User();
-        $user->setPhoto($photo['name']);
-        $user->setName($request['name']);
-        $user->setSurname($request['surname']);
-        $user->setEmail($request['email']);
-        $user->setPassword($request['password']);
+        $user->setPhoto($_FILES['photo']['name']);
+        $user->setName($_POST['name']);
+        $user->setSurname($_POST['surname']);
+        $user->setEmail($_POST['email']);
+        $user->setPassword($_POST['password']);
 
         if (! $user->hasValidData()) {
             $errors = $user->getErrors();
 
             Session::set('errors', $errors);
-            Session::set('old_input', $request);
+            Session::set('old_input', $_POST);
 
             redirect('register');
             return;
@@ -79,10 +79,8 @@ class AuthController
 
         $user->save();
 
-        handleUploadedFile('photo');
-
-        $user = User::getByEmail($user->getEmail());
-        Session::set('user', $user);
+        $user = User::getByEmail($_POST['email']);
+        $user->login();
 
         redirectWithMessage('/', 'Registered Successfully');
     }
@@ -96,26 +94,47 @@ class AuthController
     private function handleInvalidLogin()
     {
         Session::set('errors', [
-            'login' => 'Dados inválidos'
+            'login' => 'Invalid data'
         ]);
 
+        Session::set('old_input', $_POST);
+
         redirect('login');
+        exit();
     }
 
-    private function checkPassword(array $request): void
+    private function checkIfUserAlreadyExists()
     {
-        if ($request['password'] !== $request['confirm_password']) {
-            $errors = [];
-            $errors['confirm_password'] = 'Passwords does not match.';
-            $errors['password'] = 'Passwords does not match.';
+        $user = User::getByEmail($_POST['email']);
 
-            Session::set('errors', $errors);
+        if ($user) {
+            Session::set('errors', [
+                'email' => 'Email already registered'
+            ]);
+
+            Session::set('old_input', $_POST);
+
             redirect('register');
+            exit();
         }
     }
 
-    private function generateUniqueName(string $name): string
+    private function passwordsMatch()
     {
-        return uniqid() . '_' . $name;
+        if ($_POST['password'] !== $_POST['confirm_password']) {
+            Session::set('errors', [
+                'password' => 'Passwords does not match',
+                'confirm_password' => 'Passwords does not match',
+            ]);
+            Session::set('old_input', $_POST);
+
+            redirect('register');
+            exit();
+        }
+    }
+
+    private function generateUniqueName(): string
+    {
+        return uniqid() . '_' . $_FILES['photo']['name'];
     }
 }

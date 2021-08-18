@@ -46,3 +46,17 @@ function handleUploadedFile($file_key, $old_photo = '')
     move_uploaded_file($_FILES[$file_key]['tmp_name'], $target_file);
 }
 
+function h($name, $quotes = ENT_QUOTES)
+{
+    return htmlspecialchars($name, $quotes);
+}
+
+function old($key) {
+    $old_input = Session::get('old_input');
+
+    if (empty($old_input[$key])) {
+        return null;
+    }
+
+    return h($old_input[$key]);
+}

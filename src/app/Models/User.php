@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Connection;
+use App\Session;
 
 class User
 {
@@ -84,21 +85,48 @@ class User
         $this->errors = [];
 
         if (empty($this->name)) {
-            $this->errors['name'] = 'Preencha este campo.';
+            $this->errors['name'] = 'Fill this field.';
+        }
+
+        if (empty($this->surname)) {
+            $this->errors['surname'] = 'Fill this field.';
         }
 
         if(empty($this->email)) {
-            $this->errors['email'] = 'Preencha este campo.';
+            $this->errors['email'] = 'Fill this field.';
         }
 
         if(empty($this->password)) {
-            $this->errors['password'] = 'Preencha este campo.';
+            $this->errors['password'] = 'Fill this field.';
         }
 
         return empty($this->errors);
     }
 
-    public static function getByEmail($email)
+    public static function getById(int $id): User|null
+    {
+        $pdo = Connection::make();
+
+        $stmt = $pdo->prepare('SELECT * FROM users WHERE id=?');
+        $stmt->execute([$id]);
+        $userData = $stmt->fetch();
+
+        if (empty($userData)) {
+            return null;
+        }
+
+        $user = new User();
+        $user->setId($userData['id']);
+        $user->setPhoto($userData['photo']);
+        $user->setName($userData['name']);
+        $user->setSurname($userData['surname']);
+        $user->setEmail($userData['email']);
+        $user->setPassword($userData['password']);
+
+        return $user;
+    }
+
+    public static function getByEmail(string $email): User|null
     {
         $pdo = Connection::make();
 
@@ -137,6 +165,13 @@ class User
         $stmt = $pdo->prepare('INSERT INTO users (photo, name, surname, email, password) VALUES (?, ?, ?, ?, ?)');
         $result = $stmt->execute($user);
 
+        handleUploadedFile('photo');
+
         return $result;
+    }
+
+    public function login()
+    {
+        Session::set('user', $this);
     }
 }

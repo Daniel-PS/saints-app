@@ -7,16 +7,16 @@ $(document).ready(() => {
         'confirm-password'
     ];
 
-    $('#name').focusout(() => {
-        validate('name')
-    });
-
-    $('#surname').focusout(() => {
-        validate('surname')
-    });
+    addEventsToInptus();
 
     $('#email').focusout(() => {
-        validateEmail('email')
+        if (isEmail($('#email').val())) {
+            removeError('email');
+            $('#email').removeClass('is-invalid');
+        } else {
+            addError('email');
+            $('#email').addClass('is-invalid');
+        }
     });
 
     $('#confirm-password').focusout(() => {
@@ -56,13 +56,31 @@ $(document).ready(() => {
     });
 
     $('#form').submit(() => {
-        if (errors.length > 0) {
-            errors.forEach((error) => {
+        errors.forEach((error, index) => {
+            if (! $('#' + error).val()) {
                 $('#' + error).addClass('is-invalid');
-            });
+            }
+        });
+
+        if (errors.length > 0) {
             return false;
         }
     });
+
+    function addEventsToInptus()
+    {
+        errors.forEach((error) => {
+            if (! $('#' + error).val()) {
+                $('#' + error).focusout(() => {
+                    validate(error);
+                });
+            } else {
+                $('#' + error, () => {
+                    validate(error);
+                });
+            }
+        });
+    }
 
     function validate(element) {
         if (! $('#' + element).val()) {
@@ -71,16 +89,6 @@ $(document).ready(() => {
         } else {
             removeError(element);
             $('#' + element).removeClass('is-invalid');
-        }
-    }
-
-    function validateEmail(element) {
-        if (isEmail($('#' + element).val())) {
-            removeError(element);
-            $('#' + element).removeClass('is-invalid');
-        } else {
-            addError(element);
-            $('#' + element).addClass('is-invalid');
         }
     }
 
