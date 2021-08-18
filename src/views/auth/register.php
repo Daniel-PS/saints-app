@@ -67,7 +67,7 @@
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="confirm-password">Repeat your password</label>
-                                            <input type="password" id="confirm-password" class="form-control">
+                                            <input type="password" name="confirm_password" id="confirm-password" class="form-control">
                                             <div class="invalid-feedback">
                                                 Passwords does not match.
                                             </div>
