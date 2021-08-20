@@ -16,30 +16,30 @@ $(document).ready(() => {
 
     $('#email').focusout(() => {
         if (isEmail($('#email').val())) {
-            removeError('email');
+            removeError('email', errors);
             $('#email').removeClass('is-invalid');
         } else {
-            addError('email');
+            addError('email', errors);
             $('#email').addClass('is-invalid');
         }
     });
 
     $('#confirm-password').focusout(() => {
         if (! $('#password').val() && ! $('#confirm-password').val()) {
-            validate('password');
-            validate('confirm-password');
+            validate('password', errors);
+            validate('confirm-password', errors);
         } else {
             const password = $('#password').val();
             const confirmPassword = $('#confirm-password').val();
 
             if (password !== confirmPassword){
-                addError('password');
-                addError('confirm-password');
+                addError('password', errors);
+                addError('confirm-password', errors);
                 $('#password').addClass('is-invalid');
                 $('#confirm-password').addClass('is-invalid');
             } else {
-                removeError('password');
-                removeError('confirm-password');
+                removeError('password', errors);
+                removeError('confirm-password', errors);
                 $('#password').removeClass('is-invalid');
                 $('#confirm-password').removeClass('is-invalid');
             }
