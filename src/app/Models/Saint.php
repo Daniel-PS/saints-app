@@ -31,6 +31,8 @@ class Saint
         $sql = '
         SELECT count(id) AS total
             FROM saints
+        WHERE
+            approved = ?
         LIMIT 1';
 
         $stmt = $pdo->prepare($sql);
@@ -57,8 +59,10 @@ class Saint
         $offset = $perPage * ($page - 1);
 
         $sql = "
-        SELECT *
-            FROM saints
+        SELECT s.*, u.name AS user_name
+            FROM saints s
+        JOIN users u
+        ON u.id = s.user_id
         WHERE
             approved = ?
         LIMIT {$offset}, {$perPage}";
@@ -82,7 +86,12 @@ class Saint
     {
         $pdo = Connection::make();
 
-        $stmt = $pdo->prepare('SELECT * FROM saints WHERE id=?');
+        $stmt = $pdo->prepare(
+            'SELECT s.*, u.name as user_name FROM saints s
+            JOIN users u
+            ON u.id = s.user_id
+            WHERE s.id=?'
+        );
         $stmt->execute([$id]);
 
         $saintData = $stmt->fetch();
@@ -106,6 +115,7 @@ class Saint
         $saint->setPrayer($saintData['prayer']);
         $saint->setApproved($saintData['approved']);
         $saint->setCreatedAt($saintData['created_at']);
+        $saint->user_name = $saintData['user_name'];
 
         return $saint;
     }

@@ -47,6 +47,7 @@ class Router
     public static function dispatch(string $requestMethod, string $requestUri)
     {
         $route = preg_replace('/[0-9]+/', '{id}', $requestMethod . '|' . $requestUri);
+        $route = strpos($route, '?') ? substr($route, 0, strpos($route, '?')) : $route;
 
         if (! isset(static::$routes[$route])) {
             http_response_code(404);

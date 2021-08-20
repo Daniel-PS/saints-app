@@ -2,18 +2,35 @@
 
 namespace App\Controllers;
 
-use App\Models\Saint;
 use App\Session;
+use App\Models\Saint;
+use App\Models\Comment;
 
 class SaintsController
 {
     public function index()
     {
-        view('saints/index.php');
+        $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
+        $perPage = 10;
+
+        $saintsPaginator = Saint::getByApproved(1, $perPage, $page);
+
+        $message = Session::get('message');
+        Session::clear('message');
+
+        view('saints/index.php', [
+            'saintsPaginator' => $saintsPaginator,
+            'page' => $page,
+            'message' => $message
+        ]);
     }
 
     public function create()
     {
+        if (! auth()) {
+            redirect('/');
+        }
+
         view('saints/create.php');
     }
 
@@ -34,6 +51,7 @@ class SaintsController
         $saint->setPhrase($_POST['phrase'] ?? '');
         $saint->setBio($_POST['bio'] ?? '');
         $saint->setPrayer($_POST['prayer'] ?? '');
+        $saint->setApproved(auth()->getTypeId() === 1  ? 1 : 0);
 
         if (! $saint->hasValidData()) {
             $errors = $saint->getErrors();
@@ -46,9 +64,7 @@ class SaintsController
         }
 
         $saint->save();
-        $saint = Saint::getByUser(auth()->getId());
-
-        redirectWithMessage('/saints/' . $saint->getId(), 'Saint Registered Successfully!');
+        redirectWithMessage('/saints', 'Saint Registered Successfully!');
     }
 
     public function show()
@@ -60,6 +76,11 @@ class SaintsController
         if (! $saint) {
             redirect('/');
         }
+
+        $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
+        $perPage = 1;
+
+        $commentsPaginator = Comment::getCommentsFromSaint($saintId, $perPage, $page);
 
         if (! $saint->getApproved()) {
             if ($saint->getUserId() === auth()->getId()) {
@@ -73,7 +94,9 @@ class SaintsController
         }
 
         view('saints/show.php', [
-            'saint' => $saint
+            'saint' => $saint,
+            'page' => $page,
+            'commentsPaginator' => $commentsPaginator
         ]);
     }
 

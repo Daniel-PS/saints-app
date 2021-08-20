@@ -46,12 +46,12 @@
                     <?php if ($user) : ?>
                         <div class="profile-details">
                             <?php if ($user->getPhoto()) : ?>
-                                <img src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" class="logged-user-photo" alt="user_photo">
+                                <img src="<?= BASE_URL ?>images/user_uploads/<?= h($user->getPhoto()) ?>" class="logged-user-photo" alt="user_photo">
                             <?php endif; ?>
                             <span class="admin_name">
                                 Hail Mary,
-                                <a href="<?= BASE_URL . 'users/' . $user->getId() ?>" style="text-decoration: none;">
-                                    <?= $user->getName() ?>!
+                                <a href="<?= BASE_URL . 'users/' . h($user->getId()) ?>" style="text-decoration: none;">
+                                    <?= h($user->getName()) ?>!
                                 </a>
                             </span>
                             <a href="<?= BASE_URL ?>logout" style="text-decoration: none; color: #2f404e; margin-top: 32px; margin-left: -135px; font-size: 10pt;">Logout</a>
