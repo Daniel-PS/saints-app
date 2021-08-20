@@ -461,3 +461,54 @@ button {
     border: 3px solid #fff;
     box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
 }
+
+.saint-photo-remove-button {
+    position: absolute;
+    margin-top: 225px;
+    margin-left: 470px;
+    font-size: 17pt;
+    background: #ff5555;
+    font-weight: bold;
+    padding: 5px;
+    color: white;
+    box-shadow: black 0px 0px 5px -1px;
+    cursor: pointer;
+}
+
+.saint-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid;
+    color: white;
+    text-align: center;
+}
+
+.saint-input:focus {
+    background: none;
+    outline: none;
+    color: white;
+}
+
+.saint-input::placeholder {
+    color: white;
+    text-align: center;
+}
+
+.saint-input .phrase {
+    font-style: italic;
+}
+
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+.inputfile:focus + label {
+    outline: none;
+}
+.inputfile + label * {
+    cursor: pointer;
+}

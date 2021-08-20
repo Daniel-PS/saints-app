@@ -30,7 +30,7 @@
                 </section>
             </div>
             <div class="col-md-9 col-lg-6 col-xl-5" style="text-align: right;">
-                <img src="<?= BASE_URL ?>images/saint_therese.jpg" class="img-fluid">
+                <img src="<?= BASE_URL ?>images/saint_therese.jpg" class="img-fluid" style="max-width: 750px;">
             </div>
         </div>
     </div>

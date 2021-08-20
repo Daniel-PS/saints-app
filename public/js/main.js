@@ -1,4 +1,9 @@
 $(document).ready(() => {
+    $(() => {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    // Register
     let errors = [
         'name',
         'surname',
@@ -7,7 +12,7 @@ $(document).ready(() => {
         'confirm-password'
     ];
 
-    addEventsToInptus();
+    addEventsToInptus(errors);
 
     $('#email').focusout(() => {
         if (isEmail($('#email').val())) {
@@ -56,7 +61,7 @@ $(document).ready(() => {
     });
 
     $('#form').submit(() => {
-        errors.forEach((error, index) => {
+        errors.forEach((error) => {
             if (! $('#' + error).val()) {
                 $('#' + error).addClass('is-invalid');
             }
@@ -67,39 +72,58 @@ $(document).ready(() => {
         }
     });
 
-    function addEventsToInptus()
+    function addEventsToInptus(list)
     {
-        errors.forEach((error) => {
+        list.forEach((error) => {
             if (! $('#' + error).val()) {
                 $('#' + error).focusout(() => {
-                    validate(error);
+                    if ($('#' + error).attr('title') !== undefined) {
+                        $('#' + error).attr('title', 'Fill this field').tooltip('_fixTitle');
+                    }
+
+                    validate(error, list);
                 });
             } else {
                 $('#' + error, () => {
-                    validate(error);
+                    if ($('#' + error).attr('title') !== undefined) {
+                        $('#' + error).attr('title', 'Fill this field').tooltip('_fixTitle');
+                    }
+
+                    validate(error, list);
                 });
             }
         });
     }
 
-    function validate(element) {
+    function validate(element, list) {
         if (! $('#' + element).val()) {
-            addError(element);
+            addError(element, list);
             $('#' + element).addClass('is-invalid');
         } else {
-            removeError(element);
+            removeError(element, list);
             $('#' + element).removeClass('is-invalid');
+
+            if ($('#' + element).attr('title') !== undefined) {
+                $('#' + element).attr('title', '').tooltip('dispose');
+            }
         }
     }
 
-    function addError(error) {
-        ! errors.find(item => item === error) ? errors.push(error) : null;
+    function addError(error, list) {
+        if (error === 'saint-photo-input') {
+            $('#photo-img').css({border: 'solid red 5px'});
+        }
+        ! list.find(item => item === error) ? list.push(error) : null;
     }
 
-    function removeError(error) {
-        const index = errors.findIndex(item => item === error);
+    function removeError(error, list) {
+        if (error === 'saint-photo-input') {
+            $('#photo-img').css({border: 'none'});
+        }
+
+        const index = list.findIndex(item => item === error);
         if (index != -1) {
-            errors.splice(index, 1);
+            list.splice(index, 1);
         }
     }
 
@@ -107,4 +131,71 @@ $(document).ready(() => {
         let regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
         return regex.test(email);
     }
+
+    // Register Saint
+
+    $('#saint-photo-input').change((event) => {
+        const photo = event.target.files[0];
+        const photoUrl = URL.createObjectURL(photo);
+
+        $('#photo-img').attr('src', photoUrl);
+        $('#remove-saint-photo').css({display: 'flex'});
+    });
+
+    $('#remove-saint-photo').click(() => {
+        $('#photo-img').attr('src', '/images/sacred heart of jesus.webp');
+        $('#remove-saint-photo').css({display: 'none'});
+        $('#saint-photo-input').val(null);
+    });
+
+    let saintErrors = [
+        'saint-photo-input',
+        'saint-name',
+        'saint-phrase',
+        'saint-baptism-name',
+        'saint-birthdate',
+        'saint-feast-date',
+        'saint-nation',
+        'saint-city',
+        'saint-bio',
+        'saint-prayer'
+    ];
+
+    addEventsToInptus(saintErrors);
+
+    $('#remove-authorship').click(() => {
+        $('#authorship').val(false);
+        $('#remove-authorship').css({display: 'none'});
+        $('#add-authorship').css({display: 'flex'});
+    });
+
+    $('#add-authorship').click(() => {
+        $('#authorship').val(true);
+        $('#add-authorship').css({display: 'none'});
+        $('#remove-authorship').css({display: 'flex'});
+    });
+
+    $('#submit').click(() => {
+        $('#saint-form').submit();
+    });
+
+    $('#saint-form').submit(() => {
+        saintErrors.forEach((error) => {
+            if (! $('#' + error).val()) {
+                if (error === 'saint-photo-input') {
+                    $('#photo-img').css({border: 'solid red 5px'});
+                } else {
+                    $('#' + error).addClass('is-invalid');
+
+                    if ($('#' + error).attr('title') !== undefined) {
+                        $('#' + error).attr('title', 'Fill this field').tooltip('_fixTitle');
+                    }
+                }
+            }
+        });
+
+        if (saintErrors.length > 0) {
+            return false;
+        }
+    });
 });
