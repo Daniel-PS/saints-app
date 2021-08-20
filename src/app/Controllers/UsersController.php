@@ -3,13 +3,12 @@
 namespace App\Controllers;
 
 use App\Models\User;
-use App\Session;
 
 class UsersController
 {
     public function show()
     {
-        if (! Session::get('user')) {
+        if (! auth()) {
             redirect('/');
         }
 
@@ -28,22 +27,19 @@ class UsersController
 
     public function edit()
     {
-        $user = Session::get('user');
-
-        if (! $user) {
+        if (! auth()) {
             redirect('/');
         }
 
         $userId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
 
-        if ($userId === $user->getId()) {
+        if ($userId === auth()->getId()) {
             view('users/edit.php', [
-                'user' => $user
+                'user' => auth()
             ]);
         } else {
             redirect('/');
         }
-
     }
 
     public function update()

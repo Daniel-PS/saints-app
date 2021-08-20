@@ -9,7 +9,7 @@ class AuthController
 {
     public function register()
     {
-        if (Session::get('user')) {
+        if (auth()) {
             redirect('/');
         }
 
@@ -18,21 +18,21 @@ class AuthController
 
     public function login()
     {
-        if (Session::get('user')) {
+        if (auth()) {
             redirect('/');
         }
 
         $errors = Session::get('errors');
         Session::clear('errors');
 
-        view('auth/login.php',  [
+        view('auth/login.php', [
             'errors' => $errors,
         ]);
     }
 
     public function authenticate()
     {
-        if (Session::get('user')) {
+        if (auth()) {
             redirect('/');
         }
 
@@ -57,7 +57,7 @@ class AuthController
         $this->passwordsMatch();
 
         if ($_FILES['photo']['name']) {
-            $_FILES['photo']['name'] = $this->generateUniqueName();
+            $_FILES['photo']['name'] = generateUniqueName();
         }
 
         $user = new User();
@@ -131,10 +131,5 @@ class AuthController
             redirect('register');
             exit();
         }
-    }
-
-    private function generateUniqueName(): string
-    {
-        return uniqid() . '_' . $_FILES['photo']['name'];
     }
 }

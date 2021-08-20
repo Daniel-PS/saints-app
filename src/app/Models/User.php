@@ -8,6 +8,7 @@ use App\Session;
 class User
 {
     private $id;
+    private $typeId;
     private $photo;
     private $name;
     private $surname;
@@ -23,6 +24,16 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setTypeId($typeId)
+    {
+        $this->typeId = $typeId;
+    }
+
+    public function getTypeId()
+    {
+        return $this->typeId;
     }
 
     public function setPhoto($photo)
@@ -92,18 +103,18 @@ class User
             $this->errors['surname'] = 'Fill this field.';
         }
 
-        if(empty($this->email)) {
+        if (empty($this->email)) {
             $this->errors['email'] = 'Fill this field.';
         }
 
-        if(empty($this->password)) {
+        if (empty($this->password)) {
             $this->errors['password'] = 'Fill this field.';
         }
 
         return empty($this->errors);
     }
 
-    public static function getById(int $id): User|null
+    public static function getById(int $id): ?User
     {
         $pdo = Connection::make();
 
@@ -117,6 +128,7 @@ class User
 
         $user = new User();
         $user->setId($userData['id']);
+        $user->setTypeId($userData['user_type_id']);
         $user->setPhoto($userData['photo']);
         $user->setName($userData['name']);
         $user->setSurname($userData['surname']);
@@ -126,7 +138,7 @@ class User
         return $user;
     }
 
-    public static function getByEmail(string $email): User|null
+    public static function getByEmail(string $email): ?User
     {
         $pdo = Connection::make();
 
@@ -140,6 +152,7 @@ class User
 
         $user = new User();
         $user->setId($userData['id']);
+        $user->setTypeId($userData['user_type_id']);
         $user->setPhoto($userData['photo']);
         $user->setName($userData['name']);
         $user->setSurname($userData['surname']);
