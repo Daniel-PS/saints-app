@@ -46,12 +46,18 @@ function handleUploadedFile($file_key, $old_photo = '')
     move_uploaded_file($_FILES[$file_key]['tmp_name'], $target_file);
 }
 
+function deletePhoto($old_photo)
+{
+    unlink(PUBLIC_UPLOADS_FOLDER_PATH . '/' . $old_photo['photo']);
+}
+
 function h($name, $quotes = ENT_QUOTES)
 {
     return htmlspecialchars($name, $quotes);
 }
 
-function old($key) {
+function old($key)
+{
     $old_input = Session::get('old_input');
 
     if (empty($old_input[$key])) {
@@ -59,4 +65,14 @@ function old($key) {
     }
 
     return h($old_input[$key]);
+}
+
+function generateUniqueName(): string
+{
+    return uniqid() . '_' . $_FILES['photo']['name'];
+}
+
+function auth(): ?object
+{
+    return Session::get('user');
 }
