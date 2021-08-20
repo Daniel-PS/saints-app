@@ -8,10 +8,6 @@ class UsersController
 {
     public function show()
     {
-        if (! auth()) {
-            redirect('/');
-        }
-
         $userId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
 
         $user = User::getById($userId);
