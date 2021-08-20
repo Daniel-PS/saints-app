@@ -31,7 +31,8 @@ function redirect($uri)
     header('Location: ' . $uri);
 }
 
-function redirectWithMessage($uri, $message) {
+function redirectWithMessage($uri, $message)
+{
     Session::set('message', $message);
     redirect($uri);
 }
