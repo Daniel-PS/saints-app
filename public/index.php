@@ -35,7 +35,8 @@ Router::get('/logout', 'AuthController@logout');
 
 Router::get('/users/{id}', 'UsersController@show');
 Router::get('/users/{id}/edit', 'UsersController@edit');
-Router::patch('/users', 'UsersController@update');
+Router::post('/users/{id}', 'UsersController@update');
+Router::delete('/users/{id}', 'UsersController@destroy');
 
 Router::get('/approval/saints', 'ApprovalController@saints');
 Router::patch('/approval/saints/approve', 'ApprovalController@approveSaint');

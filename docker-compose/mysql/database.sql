@@ -59,7 +59,7 @@ ALTER TABLE saints_db.users_devotion_saints ADD CONSTRAINT users_devotion_saints
 
 ALTER TABLE saints_db.users_devotion_saints ADD CONSTRAINT users_devotion_saints_FK_1 FOREIGN KEY (user_id) REFERENCES saints_db.users(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-ALTER TABLE saints_db.saints ADD CONSTRAINT saints_FK FOREIGN KEY (user_id) REFERENCES saints_db.users(id) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE saints_db.saints ADD CONSTRAINT saints_FK FOREIGN KEY (user_id) REFERENCES saints_db.users(id) ON DELETE SET NULL ON UPDATE CASCADE;
 
 ALTER TABLE saints_db.comments ADD CONSTRAINT comments_FK FOREIGN KEY (user_id) REFERENCES saints_db.users(id) ON DELETE CASCADE ON UPDATE CASCADE;
 

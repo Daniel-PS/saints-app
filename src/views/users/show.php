@@ -1,7 +1,11 @@
 <?php
     view('partials/header.php');
 ?>
-
+<?php if (isset($message)) : ?>
+    <div id="hideMe" class="message" style="margin-top: 100px;">
+        <p class="message-text"><?= $message ?></p>
+    </div>
+<?php endif; ?>
 <div class="container" style="margin-top: 100px;">
     <div class="row">
         <div class="col-lg-3 col-sm-6" style="width: 100%;">
@@ -47,7 +51,15 @@
                             <?php endforeach; ?>
                         </div>
                     <?php else : ?>
-                        <?= $user->getName() ?> doesn't have any Saints of devotion yet
+                        <section id="hero" style="padding-bottom: 0;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1 style="font-size: 18pt; text-transform: none; text-align: center;"><?= $user->getName() ?> doesn't have any Saints of devotion yet</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     <?php endif; ?>
                 </div>
                 <nav>
@@ -216,16 +228,41 @@
                         <?php endif ?>
                     </ul>
                 </nav>
+                <?php if (auth()) : ?>
+                    <?php if (auth()->getId() === $user->getId()) : ?>
+                        <div class="fab-container" style="right: 130px;">
+                            <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
+                                <ul class="fab-options">
+                                    <li>
+                                        <a href="<?= BASE_URL ?>users/<?= h($user->getId()) ?>/edit" style="display: flex; text-decoration: none;">
+                                            <span class="fab-label">Update Your Profile</span>
+                                            <div class="fab-icon-holder">
+                                                <i class="fas fa-user-edit"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="delete-user" style="display: flex; text-decoration: none;">
+                                            <span class="fab-label">Delete your profile</span>
+                                            <div class="fab-icon-holder">
+                                                <i id="<?= $user->getId() ?>" class="fas fa-minus-circle"></i>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
             </div>
         </div>
-	</div>
+    </div>
 </div>
 <?php
     view('partials/footer.php');
 ?>
 
 <style>
-
 .card {
     padding-top: 20px;
     margin: 10px 0 20px 0;

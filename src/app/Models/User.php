@@ -15,6 +15,7 @@ class User
     private $email;
     private $password;
     private $created_at;
+    private $oldPhoto;
     private $errors;
 
     public function setId($id)
@@ -97,6 +98,11 @@ class User
         return $this->created_at;
     }
 
+    public function setOldPhoto($oldPhoto)
+    {
+        $this->oldPhoto = $oldPhoto;
+    }
+
     public function getErrors()
     {
         return $this->errors;
@@ -120,6 +126,25 @@ class User
 
         if (empty($this->password)) {
             $this->errors['password'] = 'Fill this field.';
+        }
+
+        return empty($this->errors);
+    }
+
+    public function hasValidEditedData()
+    {
+        $this->errors = [];
+
+        if (empty($this->name)) {
+            $this->errors['name'] = 'Fill this field.';
+        }
+
+        if (empty($this->surname)) {
+            $this->errors['surname'] = 'Fill this field.';
+        }
+
+        if (empty($this->email)) {
+            $this->errors['email'] = 'Fill this field.';
         }
 
         return empty($this->errors);
@@ -194,6 +219,81 @@ class User
         handleUploadedFile('photo');
 
         return $result;
+    }
+
+    public function update()
+    {
+        $this->handlePostData();
+
+        $updatedUser = [
+            $this->photo,
+            $this->name,
+            $this->surname,
+            $this->email,
+            $this->password,
+            $this->id
+        ];
+
+        $pdo = Connection::make();
+        $stmt = $pdo->prepare('UPDATE users SET photo=?, name=?, surname=?, email=?, password=? WHERE id=?');
+        $result = $stmt->execute($updatedUser);
+
+        if ($result && $_FILES['photo']['name']) {
+            handleUploadedFile('photo', $this->oldPhoto);
+        }
+
+        return $result;
+    }
+
+    public function delete()
+    {
+        $pdo = Connection::make();
+        $stmt = $pdo->prepare(
+            'DELETE FROM users WHERE id=?'
+        );
+
+        $result = $stmt->execute([$this->id]);
+
+        return $result;
+    }
+
+    private function handlePostData()
+    {
+        if (auth()->getId() != $this->id) {
+            redirectWithMessage('/users/' . $this->id, 'You dont have permission to edit this comment.');
+        }
+
+        if ($_FILES['photo']['name']) {
+            $this->oldPhoto = $this->photo;
+            $this->photo = $_FILES['photo']['name'];
+        }
+
+        if ($_POST['name']) {
+            $this->name = $_POST['name'];
+        }
+
+        if ($_POST['surname']) {
+            $this->surname = $_POST['surname'];
+        }
+
+        if ($_POST['email']) {
+            $this->email = $_POST['email'];
+        }
+
+        if ($_POST['password']) {
+            if ($_POST['password'] !== $_POST['confirm_password']) {
+                Session::set('errors', [
+                    'password' => 'Passwords does not match',
+                    'confirm_password' => 'Passwords does not match',
+                ]);
+                Session::set('old_input', $_POST);
+
+                redirect('/users/' . $this->id);
+                exit();
+            }
+
+            $this->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+        }
     }
 
     public function login()

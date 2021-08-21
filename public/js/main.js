@@ -323,4 +323,71 @@ $(document).ready(() => {
             }
         });
     });
+
+    // User edit
+
+    let userEditErrors = [
+        'name',
+        'surname',
+        'email'
+    ];
+
+    addEventsToInptus(userEditErrors);
+
+    $('#password-edit, #confirm-edit-password').focusout(() => {
+        if (! $('#password-edit').val() && $('#confirm-edit-password').val()) {
+            validate('password-edit', userEditErrors);
+            validate('confirm-edit-password', userEditErrors);
+
+            $('#confirm-edit-password').addClass('is-invalid');
+        } else {
+            const password = $('#password-edit').val();
+            const confirmPassword = $('#confirm-edit-password').val();
+
+            if (password !== confirmPassword){
+                addError('password-edit', userEditErrors);
+                addError('confirm-edit-password', userEditErrors);
+                $('#password-edit').addClass('is-invalid');
+                $('#confirm-edit-password').addClass('is-invalid');
+            } else {
+                removeError('password-edit', userEditErrors);
+                removeError('confirm-edit-password', userEditErrors);
+                $('#password-edit').removeClass('is-invalid');
+                $('#confirm-edit-password').removeClass('is-invalid');
+            }
+        }
+    });
+
+    $('#form-user-edit').submit(() => {
+        userEditErrors.forEach((error) => {
+            if (! $('#' + error).val()) {
+                $('#' + error).addClass('is-invalid');
+            }
+        });
+
+        if (userEditErrors.length > 0) {
+            return false;
+        }
+    });
+
+    // Delete user
+
+    $('a.delete-user').click((event) => {
+        if (! confirm('Are you sure?')) {
+            return ;
+        }
+
+        const userId = event.target.id;
+
+        $.ajax({
+            url: '/users/' + userId,
+            type: 'DELETE',
+            data: JSON.stringify({
+                id: userId
+            }),
+            success: () => {
+                window.location.replace('/');
+            }
+        });
+    });
 });
