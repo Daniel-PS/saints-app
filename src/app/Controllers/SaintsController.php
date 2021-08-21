@@ -40,18 +40,18 @@ class SaintsController
         if ($_FILES['photo']['name']) {
             $_FILES['photo']['name'] = generateUniqueName();
         }
-
         $saint = new Saint();
-        $saint->setPhoto($_FILES['photo']['name'] ?? '');
-        $saint->setName($_POST['name'] ?? '');
-        $saint->setBaptismName($_POST['baptism_name'] ?? '');
-        $saint->setBirthdate($_POST['birthdate'] ?? '');
-        $saint->setFeastDate($_POST['feast_date'] ?? '');
-        $saint->setNation($_POST['nation'] ?? '');
-        $saint->setCity($_POST['city'] ?? '');
-        $saint->setPhrase($_POST['phrase'] ?? '');
-        $saint->setBio($_POST['bio'] ?? '');
-        $saint->setPrayer($_POST['prayer'] ?? '');
+        $saint->setUserId($_POST['authorship'] === 'true' ? auth()->getId() : null);
+        $saint->setPhoto($_FILES['photo']['name']);
+        $saint->setName($_POST['name']);
+        $saint->setBaptismName($_POST['baptism_name']);
+        $saint->setBirthdate($_POST['birthdate']);
+        $saint->setFeastDate($_POST['feast_date']);
+        $saint->setNation($_POST['nation']);
+        $saint->setCity($_POST['city']);
+        $saint->setPhrase($_POST['phrase']);
+        $saint->setBio($_POST['bio']);
+        $saint->setPrayer($_POST['prayer']);
         $saint->setApproved(auth()->getTypeId() == 1  ? 1 : 0);
 
         if (! $saint->hasValidData()) {
@@ -86,9 +86,12 @@ class SaintsController
         $totalDevotions = UsersDevotionSaints::countBySaint($saintId);
 
         if (! $saint->getApproved()) {
-            if ($saint->getUserId() === auth()->getId()) {
+            if (auth()->getTypeId() == 1) {
                 view('saints/show.php', [
-                    'saint' => $saint
+                    'saint' => $saint,
+                    'page' => $page,
+                    'totalDevotions' => $totalDevotions,
+                    'commentsPaginator' => $commentsPaginator
                 ]);
                 exit();
             } else {
@@ -152,5 +155,7 @@ class SaintsController
         }
 
         $saint->removeAuthorship();
+
+        redirect('/saints/' . $saintId);
     }
 }

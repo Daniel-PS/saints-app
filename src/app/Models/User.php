@@ -14,6 +14,7 @@ class User
     private $surname;
     private $email;
     private $password;
+    private $created_at;
     private $errors;
 
     public function setId($id)
@@ -86,6 +87,16 @@ class User
         return $this->password;
     }
 
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
     public function getErrors()
     {
         return $this->errors;
@@ -134,6 +145,7 @@ class User
         $user->setSurname($userData['surname']);
         $user->setEmail($userData['email']);
         $user->setPassword($userData['password']);
+        $user->setCreatedAt($userData['created_at']);
 
         return $user;
     }
@@ -158,6 +170,7 @@ class User
         $user->setSurname($userData['surname']);
         $user->setEmail($userData['email']);
         $user->setPassword($userData['password']);
+        $user->setCreatedAt($userData['created_at']);
 
         return $user;
     }

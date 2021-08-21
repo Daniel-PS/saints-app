@@ -49,7 +49,7 @@
                                                         <a href="<?= BASE_URL ?>saints/<?= $comment['saint_id'] ?>" target="_blank" style="text-decoration: none;">
                                                             <?= $comment['saint_name'] ?>
                                                         </a>
-                                                        at <?= dateFormat($comment['created_at']) ?>
+                                                        at <?= dateFormat($comment['created_at'], true) ?>
                                                     </p>
                                                     <img class="saint-comment" src="<?= BASE_URL ?>images/user_uploads/<?= $comment['saint_photo'] ?>">
                                                 </div>

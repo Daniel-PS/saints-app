@@ -10,19 +10,19 @@
                         <div class="row align-items-center">
                             <div class="col">
                                 <h1>
-                                    <a href="#" style="text-decoration: none; color: white;"><?= h($saint->getName()) ?></a>
+                                    <a style="text-decoration: none; color: white;"><?= h($saint->getName()) ?></a>
                                 </h1>
                                 <p class="phrase">
                                     <?= h($saint->getPhrase()) ?>
                                 </p>
                                 <p>
-                                    <span class="citation-name">Baptism name</span> &#8212; <?= h($saint->getBaptismName()) ?>
+                                    <span class="citation-name">Baptism name</span> &#8212; <?= $saint->getBaptismName() ? h($saint->getBaptismName()) : 'Unknow' ?>
                                     <br>
-                                    <span class="citation-name">Place of Birth</span> &#8212; <?= h($saint->getCity()) ?>, <?= h($saint->getNation()) ?>
+                                    <span class="citation-name">Place of Birth</span> &#8212; <?= $saint->getCity() ? h($saint->getCity()) : 'Unknow' ?>, <?= $saint->getNation() ? h($saint->getNation()) : 'Unknow' ?>
                                     <br>
-                                    <span class="citation-name">Date of Birth &#8212;</span> <?= h($saint->getBirthdate()) ?>
+                                    <span class="citation-name">Date of Birth &#8212;</span> <?= $saint->getBirthdate() ? h(dateFormat($saint->getBirthdate())) : 'Unknow' ?>
                                     <br>
-                                    <span class="citation-name">Feast Date &#8212;</span> <?= h($saint->getFeastDate()) ?>
+                                    <span class="citation-name">Feast Date &#8212;</span> <?= $saint->getFeastDate() ? h(dateFormat($saint->getFeastDate())) : 'Unknow' ?>
                                 </p>
                                 <?php if ($saint->user_name) : ?>
                                     <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint->getUserId()) ?>" target="_blank" style="text-decoration: none;"><?= h($saint->user_name) ?></a></p>

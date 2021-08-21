@@ -1,6 +1,7 @@
 <?php
 
 use App\Router;
+use App\Session;
 
 require_once '../src/autoload.php';
 require_once '../src/functions.php';

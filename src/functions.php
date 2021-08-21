@@ -78,8 +78,15 @@ function auth(): ?object
     return Session::get('user');
 }
 
-function dateFormat($value)
+function dateFormat($value, $time = false)
 {
-    $newDate = DateTime::createFromFormat('Y-m-d H:m:s', $value);
-    return $value = $newDate->format('d/m/Y');
+    $time = $time ? ' H:m:s' : null;
+    $newDate = DateTime::createFromFormat('Y-m-d' . $time, $value);
+    $newDate = $newDate->format('d/m/Y');
+
+    if (strpos($newDate, '/0000')) {
+        $newDate = str_replace('/0000', '', $newDate);
+    }
+
+    return $newDate;
 }

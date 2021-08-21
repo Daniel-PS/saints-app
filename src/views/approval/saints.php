@@ -32,11 +32,15 @@
                                 <br>
                                 <span class="citation-name">Place of Birth</span> &#8212; <?= h($saint['city']) ?>, <?= h($saint['nation']) ?>
                                 <br>
-                                <span class="citation-name">Date of Birth &#8212;</span> <?= h($saint['birthdate']) ?>
+                                <span class="citation-name">Date of Birth &#8212;</span> <?= $saint['birthdate'] ? h(dateFormat($saint['birthdate'])) : 'Unknow' ?>
                                 <br>
-                                <span class="citation-name">Feast Date &#8212;</span> <?= h($saint['feast_date']) ?>
+                                <span class="citation-name">Feast Date &#8212;</span> <?= $saint['feast_date'] ? h(dateFormat($saint['feast_date'])) : 'Unknow' ?>
                             </p>
-                            <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>"><?= h($saint['user_name']) ?></a></p>
+                            <?php if ($saint['user_id']) : ?>
+                                <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>"><?= h($saint['user_name']) ?></a></p>
+                            <?php else : ?>
+                                <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank" style="text-decoration: none;">Good Samaritan</a></p>
+                            <?php endif; ?>
                             <a class="text-info approve-saint" data-toggle="tooltip" title="Approve" data-original-title="Approve" style="cursor: pointer; text-decoration: none; margin-right: 10px;">
                                 <i id="<?= $saint['id'] ?>" class="fas fa-thumbs-up" style="color: limegreen;"></i>
                             </a>

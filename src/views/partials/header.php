@@ -44,6 +44,14 @@
                         </li>
                     <?php endif; ?>
                     <?php if ($user) : ?>
+                        <?php if ($user->getTypeId() == 1) : ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= BASE_URL ?>approval/saints">Approve Saints</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= BASE_URL ?>approval/comments">Approve Comments</a>
+                            </li>
+                        <?php endif; ?>
                         <div class="profile-details">
                             <?php if ($user->getPhoto()) : ?>
                                 <img src="<?= BASE_URL ?>images/user_uploads/<?= h($user->getPhoto()) ?>" class="logged-user-photo" alt="user_photo">

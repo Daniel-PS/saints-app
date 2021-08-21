@@ -295,50 +295,44 @@ class Saint
             $this->errors['name'] = 'Fill this field.';
         }
 
-        if (empty($this->baptism_name)) {
-            $this->errors['baptism_name'] = 'Fill this field.';
-        }
+        if (! empty($this->birthdate)) {
+            if (substr_count($this->birthdate, '/') === 1) {
+                $this->birthdate = $this->birthdate . '/0000';
+            }
 
-        if (empty($this->nation)) {
-            $this->errors['nation'] = 'Fill this field.';
-        }
-
-        if (empty($this->city)) {
-            $this->errors['city'] = 'Fill this field.';
-        }
-
-        if (empty($this->birthdate)) {
-            $this->errors['birthdate'] = 'Fill this field.';
-        } else {
             $birthdayDate = DateTime::createFromFormat('d/m/Y', $this->birthdate);
-            $this->birthdate = $birthdayDate->format('Y-m-d');
 
-            if ($birthdayDate === false) {
-                $this->errors['birthdate'] = 'Data inválida';
+            if (! $birthdayDate) {
+                $this->errors['birthdate'] = 'Invalid date';
+            } else {
+                $this->birthdate = $birthdayDate->format('Y-m-d');
             }
         }
 
-        if (empty($this->feast_date)) {
-            $this->errors['feast_date'] = 'Fill this field.';
-        } else {
-            $birthdayDate = DateTime::createFromFormat('d/m/Y', $this->feast_date);
-            $this->feast_date = $birthdayDate->format('Y-m-d');
+        if (! empty($this->feast_date)) {
+            if (substr_count($this->feast_date, '/') === 1) {
+                $this->feast_date = $this->feast_date . '/0000';
+            }
 
-            if ($birthdayDate === false) {
-                $this->errors['feast_date'] = 'Data inválida';
+            $feastDate = DateTime::createFromFormat('d/m/Y', $this->feast_date);
+
+            if (! $feastDate) {
+                $this->errors['feast_date'] = 'Invalid date';
+            } else {
+                $this->feast_date = $feastDate->format('Y-m-d');
             }
         }
 
         if (empty($this->phrase)) {
-            $this->errors['phrase'] = 'Preencha este campo';
+            $this->errors['phrase'] = 'Fill this field';
         }
 
         if (empty($this->bio)) {
-            $this->errors['bio'] = 'Preencha este campo';
+            $this->errors['bio'] = 'Fill this field';
         }
 
         if (empty($this->prayer)) {
-            $this->errors['prayer'] = 'Preencha este campo';
+            $this->errors['prayer'] = 'Fill this field';
         }
 
         return empty($this->errors);
@@ -346,7 +340,8 @@ class Saint
 
     public function save()
     {
-        $user = auth();
+        $this->birthdate = $this->birthdate ? $this->birthdate : null;
+        $this->feast_date = $this->feast_date ? $this->feast_date : null;
 
         $saint = [
             $this->photo,
@@ -359,15 +354,16 @@ class Saint
             $this->phrase,
             $this->bio,
             $this->prayer,
-            $user->getId(),
+            $this->approved,
+            $this->user_id,
         ];
 
         $pdo = Connection::make();
         $stmt = $pdo->prepare(
             'INSERT INTO saints
-            (photo, name, baptism_name, birthdate, feast_date, nation, city, phrase, bio, prayer, user_id)
+            (photo, name, baptism_name, birthdate, feast_date, nation, city, phrase, bio, prayer, approved, user_id)
             VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
         );
 
         $result = $stmt->execute($saint);
@@ -455,7 +451,7 @@ class Saint
         $stmt = $pdo->prepare(
             'UPDATE saints
             SET
-                user_id=?,
+                user_id=?
             WHERE id=?'
         );
 

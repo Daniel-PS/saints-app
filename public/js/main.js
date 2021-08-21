@@ -152,11 +152,6 @@ $(document).ready(() => {
         'saint-photo-input',
         'saint-name',
         'saint-phrase',
-        'saint-baptism-name',
-        'saint-birthdate',
-        'saint-feast-date',
-        'saint-nation',
-        'saint-city',
         'saint-bio',
         'saint-prayer'
     ];
