@@ -47,6 +47,30 @@ class Saint
         return (int) $data['total'];
     }
 
+    public static function countByUserApproved($userId, $approved)
+    {
+        $pdo = Connection::make();
+
+        $sql = '
+        SELECT count(id) AS total
+            FROM saints
+        WHERE
+            user_id = ?
+        AND
+            approved = ?
+        LIMIT 1';
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$userId, $approved]);
+        $data = $stmt->fetch();
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return (int) $data['total'];
+    }
+
     public static function getByApproval($approved, $perPage = 10, $page = 1): Paginator
     {
         $pdo = Connection::make();
@@ -77,13 +101,23 @@ class Saint
         return new Paginator($page, $perPage, $total, $stmt->fetchAll());
     }
 
-    public static function getByUser($user_id)
+    public static function getByUserApproved($userId, $approved = 1, $perPage = 10, $page = 1): Paginator
     {
         $pdo = Connection::make();
-        $sql = "SELECT * FROM saints WHERE user_id=?";
+
+        $total = static::countByUserApproved($userId, $approved);
+
+        if ($total === 0) {
+            return new Paginator($page, $perPage, $total, []);
+        }
+
+        $offset = $perPage * ($page - 1);
+
+        $sql = "SELECT * FROM saints WHERE user_id=? AND approved=? LIMIT {$offset}, {$perPage}";
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([$user_id]);
-        return $stmt->fetchAll();
+        $stmt->execute([$userId, $approved]);
+
+        return new Paginator($page, $perPage, $total, $stmt->fetchAll());
     }
 
     public static function getById($id): ?Saint

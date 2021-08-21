@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Session;
 use App\Models\Saint;
 use App\Models\Comment;
 
@@ -22,8 +23,12 @@ class ApprovalController
 
         $saintsPaginator = Saint::getByApproval(0, $perPage, $page);
 
+        $message = Session::get('message');
+        Session::clear('message');
+
         return view('approval/saints.php', [
             'saintsPaginator' => $saintsPaginator,
+            'message' => $message,
             'page' => $page
         ]);
     }
@@ -43,8 +48,12 @@ class ApprovalController
 
         $commentsPaginator = Comment::getByApproval(0, $perPage, $page);
 
+        $message = Session::get('message');
+        Session::clear('message');
+
         return view('approval/comments.php', [
             'commentsPaginator' => $commentsPaginator,
+            'message' => $message,
             'page' => $page
         ]);
     }
@@ -68,6 +77,7 @@ class ApprovalController
         }
 
         $saint->approve();
+        Session::set('message', 'Saint approved successfully!');
     }
 
     public function removeSaint()
@@ -89,6 +99,7 @@ class ApprovalController
         }
 
         $saint->delete();
+        Session::set('message', 'Saint removed successfully!');
     }
 
     public function approveComment()
@@ -110,6 +121,7 @@ class ApprovalController
         }
 
         $comment->approve();
+        Session::set('message', 'Comment approved successfully!');
     }
 
     public function removeComment()
@@ -131,5 +143,6 @@ class ApprovalController
         }
 
         $comment->delete();
+        Session::set('message', 'Comment removed successfully!');
     }
 }

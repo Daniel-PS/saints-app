@@ -65,7 +65,7 @@ class SaintsController
         }
 
         $saint->save();
-        redirectWithMessage('/saints', 'Saint Registered Successfully!');
+        redirectWithMessage('/saints', 'Saint Registered Successfully! Please, wait for approval');
     }
 
     public function show()
@@ -85,10 +85,14 @@ class SaintsController
         $commentsPaginator = Comment::getBySaint($saintId, $perPage, $page);
         $totalDevotions = UsersDevotionSaints::countBySaint($saintId);
 
+        $message = Session::get('message');
+        Session::clear('message');
+
         if (! $saint->getApproved()) {
             if (auth()->getTypeId() == 1) {
                 view('saints/show.php', [
                     'saint' => $saint,
+                    'message' => $message,
                     'page' => $page,
                     'totalDevotions' => $totalDevotions,
                     'commentsPaginator' => $commentsPaginator
@@ -101,6 +105,7 @@ class SaintsController
 
         view('saints/show.php', [
             'saint' => $saint,
+            'message' => $message,
             'page' => $page,
             'totalDevotions' => $totalDevotions,
             'commentsPaginator' => $commentsPaginator
@@ -156,6 +161,6 @@ class SaintsController
 
         $saint->removeAuthorship();
 
-        redirect('/saints/' . $saintId);
+        redirectWithMessage('/saints/' . $saintId, 'Authorship removed successfully');
     }
 }

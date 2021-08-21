@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use App\Models\Saint;
 use App\Models\UsersDevotionSaints;
 
 class UsersController
@@ -12,11 +13,15 @@ class UsersController
         preg_match_all('!\d+!', $_SERVER['REQUEST_URI'], $matches);
         $userId = $matches[0][0];
 
-        $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
-        $perPage = 6;
+        $devotionPage = ! empty($_GET['devotionPage']) ? ((int) $_GET['devotionPage']) : 1;
+        $registeredPage = ! empty($_GET['registeredPage']) ? ((int) $_GET['registeredPage']) : 1;
+        $approvalPage = ! empty($_GET['approvalPage']) ? ((int) $_GET['approvalPage']) : 1;
+        $perPage = 1;
 
         $user = User::getById($userId);
-        $devotionsPaginator = UsersDevotionSaints::getUserDevotions($userId, $perPage, $page);
+        $devotionsPaginator = UsersDevotionSaints::getUserDevotions($userId, $perPage, $devotionPage);
+        $registeredSaintsPaginator = Saint::getByUserApproved($userId, 1, $perPage, $registeredPage);
+        $approvalSaintsPaginator = Saint::getByUserApproved($userId, 0, $perPage, $approvalPage);
 
         if (! $user) {
             redirect('/');
@@ -24,8 +29,12 @@ class UsersController
 
         view('users/show.php', [
             'user' => $user,
-            'page' => $page,
-            'devotionsPaginator' => $devotionsPaginator
+            'devotionPage' => $devotionPage,
+            'registeredPage' => $registeredPage,
+            'approvalPage' => $approvalPage,
+            'devotionsPaginator' => $devotionsPaginator,
+            'registeredSaintsPaginator' => $registeredSaintsPaginator,
+            'approvalSaintsPaginator' => $approvalSaintsPaginator
         ]);
     }
 

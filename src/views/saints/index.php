@@ -1,7 +1,6 @@
 <?php
     view('partials/header.php');
 ?>
-
     <section id="hero" style="margin-top: 100px;">
         <div class="container">
             <div class="row">
@@ -11,6 +10,11 @@
             </div>
         </div>
     </section>
+    <?php if (isset($message)) : ?>
+        <div id="hideMe" class="message">
+            <p class="message-text"><?= $message ?></p>
+        </div>
+    <?php endif; ?>
     <section id="about-us">
         <?php if (! empty($saintsPaginator->getItems())) : ?>
             <?php foreach ($saintsPaginator->getItems() as $saint) : ?>

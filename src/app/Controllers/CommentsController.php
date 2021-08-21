@@ -48,7 +48,7 @@ class CommentsController
 
         $comment->save();
 
-        redirectWithMessage('/saints/' . $saintId, 'Comment Registered Successfully! Wait for approval');
+        redirectWithMessage('/saints/' . $saintId, 'Comment Registered Successfully! Please wait for approval');
     }
 
     public function edit()
@@ -116,7 +116,7 @@ class CommentsController
 
         $comment->update();
 
-        Session::set('message', 'Comment approved successfully!');
+        Session::set('message', 'Comment edited successfully! Please, wait for approval');
     }
 
     public function destroy()

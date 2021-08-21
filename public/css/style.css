@@ -562,3 +562,31 @@ button {
     min-height: 700px;
     background-size: cover;
 }
+
+.message {
+    background-color: floralwhite;
+    padding: 2% 1% 1% 1%;
+    margin: -4% 0% 0% 5%;
+    position: fixed;
+    font-weight: bold;
+    font-size: 15pt;
+    z-index: 99999;
+    box-shadow: black 0px 0px 3px -1px;
+}
+
+#hideMe {
+    -webkit-animation: cssAnimation 5s forwards;
+    animation: cssAnimation 5s forwards;
+}
+
+@keyframes cssAnimation {
+    0%   {opacity: 1;}
+    90%  {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+@-webkit-keyframes cssAnimation {
+    0%   {opacity: 1;}
+    90%  {opacity: 1;}
+    100% {opacity: 0;}
+}

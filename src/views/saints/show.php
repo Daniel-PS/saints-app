@@ -1,7 +1,12 @@
 <?php
     view('partials/header.php');
 ?>
-<section >
+<section>
+    <?php if (isset($message)) : ?>
+        <div id="hideMe" class="message" style="margin-top: 100px;">
+            <p class="message-text"><?= $message ?></p>
+        </div>
+    <?php endif; ?>
     <div class="container-fluid h-custom" style="background: #2f404e; color: white; padding: 0;">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-8 col-lg-6 col-xl-7">

@@ -2,6 +2,11 @@
     view('partials/header.php');
 ?>
 <section>
+    <?php if (isset($message)) : ?>
+        <div id="hideMe" class="message" style="margin-top: 100px;">
+            <p class="message-text"><?= $message ?></p>
+        </div>
+    <?php endif; ?>
     <section id="hero" style="padding-bottom: 0;">
         <div class="container">
             <div class="row">

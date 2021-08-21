@@ -20,7 +20,15 @@
                 </div>
                 <div id="hero">
                     <?php if (! empty($devotionsPaginator->getItems())) : ?>
-                        <?= $user->getName() ?>'s Saints of Devotion
+                        <section id="hero" style="padding-bottom: 0;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1 style="font-size: 18pt; text-transform: none; text-align: center;"><?= $user->getName() ?>'s Saints of Devotion</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                         <div class="row cards">
                             <?php foreach ($devotionsPaginator->getItems() as $saint) : ?>
                                 <div class="col-md-4 d-flex justify-content-center">
@@ -39,40 +47,178 @@
                             <?php endforeach; ?>
                         </div>
                     <?php else : ?>
-                        <?= $user->getName() ?>' doesn't have any Saints of devotion yet
+                        <?= $user->getName() ?> doesn't have any Saints of devotion yet
                     <?php endif; ?>
                 </div>
+                <nav>
+                    <ul class="pagination" style="place-content: center;">
+                        <?php if ($devotionPage > 1) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '' ?>">
+                                    First
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?devotionPage=' . ($devotionPage - 1) ?>">
+                                    Previous
+                                </a>
+                            </li>
+                        <?php endif ?>
+                        <?php if ($devotionPage < $devotionsPaginator->getLastPage()) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?devotionPage=' . ($devotionPage + 1) ?>">
+                                    Next
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?devotionPage=' . $devotionsPaginator->getLastPage() ?>">
+                                    Last
+                                </a>
+                            </li>
+                        <?php endif ?>
+                    </ul>
+                </nav>
+                <div id="hero">
+                    <?php if (! empty($registeredSaintsPaginator->getItems())) : ?>
+                        <section id="hero" style="padding-bottom: 0;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1 style="font-size: 18pt; text-transform: none; text-align: center;"><?= $user->getName() ?>'s registered Saints</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="row cards">
+                            <?php foreach ($registeredSaintsPaginator->getItems() as $saint) : ?>
+                                <div class="col-md-4 d-flex justify-content-center">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
+                                            <h5 class="card-title">
+                                                <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
+                                            </h5>
+                                            <p class="card-text" style="font-style: italic;">
+                                                <?= h($saint['phrase']) ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php else : ?>
+                        <section id="hero" style="padding-bottom: 0;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <h1 style="font-size: 18pt; text-transform: none; text-align: center;"><?= $user->getName() ?> didn't register any Saints yet</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    <?php endif; ?>
+                </div>
+                <nav>
+                    <ul class="pagination" style="place-content: center;">
+                        <?php if ($registeredPage > 1) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '' ?>">
+                                    First
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?registeredPage=' . ($registeredPage - 1) ?>">
+                                    Previous
+                                </a>
+                            </li>
+                        <?php endif ?>
+                        <?php if ($registeredPage < $registeredSaintsPaginator->getLastPage()) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?registeredPage=' . ($registeredPage + 1) ?>">
+                                    Next
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?registeredPage=' . $registeredSaintsPaginator->getLastPage() ?>">
+                                    Last
+                                </a>
+                            </li>
+                        <?php endif ?>
+                    </ul>
+                </nav>
+                <div id="hero">
+                    <?php if (auth()->getId() === $user->getId()) : ?>
+                        <?php if (! empty($approvalSaintsPaginator->getItems())) : ?>
+                            <section id="hero" style="padding-bottom: 0;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">Saints you registered waiting for approval (this is only visible to you)</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="row cards">
+                                <?php foreach ($approvalSaintsPaginator->getItems() as $saint) : ?>
+                                    <div class="col-md-4 d-flex justify-content-center">
+                                        <div class="card" style="width: 18rem;">
+                                            <div class="card-body">
+                                                <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
+                                                <h5 class="card-title">
+                                                    <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
+                                                </h5>
+                                                <p class="card-text" style="font-style: italic;">
+                                                    <?= h($saint['phrase']) ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php else : ?>
+                            <section id="hero" style="padding-bottom: 0;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">None of the Saints you registered are needing approval</h1>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+                <nav>
+                    <ul class="pagination" style="place-content: center;">
+                        <?php if ($approvalPage > 1) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '' ?>">
+                                    First
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?approvalPage=' . ($approvalPage - 1) ?>">
+                                    Previous
+                                </a>
+                            </li>
+                        <?php endif ?>
+                        <?php if ($approvalPage < $approvalSaintsPaginator->getLastPage()) : ?>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?approvalPage=' . ($approvalPage + 1) ?>">
+                                    Next
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?approvalPage=' . $approvalSaintsPaginator->getLastPage() ?>">
+                                    Last
+                                </a>
+                            </li>
+                        <?php endif ?>
+                    </ul>
+                </nav>
             </div>
         </div>
 	</div>
-    <nav>
-        <ul class="pagination" style="place-content: center;">
-            <?php if ($page > 1) : ?>
-                <li class="page-item">
-                    <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '' ?>">
-                        First
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?page=' . ($page - 1) ?>">
-                        Previous
-                    </a>
-                </li>
-            <?php endif ?>
-            <?php if ($page < $devotionsPaginator->getLastPage()) : ?>
-                <li class="page-item">
-                    <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?page=' . ($page + 1) ?>">
-                        Next
-                    </a>
-                </li>
-                <li class="page-item">
-                    <a class="page-link" href="<?= BASE_URL . 'users/' . $user->getId() . '?page=' . $devotionsPaginator->getLastPage() ?>">
-                        Last
-                    </a>
-                </li>
-            <?php endif ?>
-        </ul>
-    </nav>
 </div>
 <?php
     view('partials/footer.php');
