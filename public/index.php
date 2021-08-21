@@ -18,6 +18,8 @@ Router::get('/saints/{id}/edit', 'SaintsController@edit');
 Router::patch('/saints/{id}/update', 'SaintsController@update');
 Router::delete('/saints/{id}/delete', 'SaintsController@destroy');
 
+Router::get('/saints/{id}/remove-authorship', 'SaintsController@removeAuthorship');
+
 Router::get('/saints/{id}/comments/create', 'CommentsController@create');
 Router::post('/saints/{id}/comments', 'CommentsController@store');
 Router::get('/saints/{id}/comments/{id}/edit', 'CommentsController@edit');
@@ -40,5 +42,8 @@ Router::delete('/approval/saints/remove', 'ApprovalController@removeSaint');
 Router::get('/approval/comments', 'ApprovalController@comments');
 Router::patch('/approval/comments/approve', 'ApprovalController@approveComment');
 Router::delete('/approval/comments/remove', 'ApprovalController@removeComment');
+
+Router::post('/devote', 'DevotionsController@store');
+Router::get('/the-good-samaritan', 'HomeController@goodSamaritan');
 
 Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

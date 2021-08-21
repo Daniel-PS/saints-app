@@ -253,7 +253,30 @@ button {
     color: #969696;
 }
 
-/* Candidate List */
+.profile-details {
+    display: flex;
+    align-items: center;
+    background: #F5F6FA;
+    border: 2px solid #EFEEF1;
+    border-radius: 6px;
+    height: 50px;
+    min-width: 190px;
+    padding: 0 15px 0 2px;
+}
+
+ .profile-details .admin_name {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+    white-space: nowrap;
+}
+
+ .profile-details i {
+    font-size: 20px;
+    color: #333;
+}
+
 .candidate-list {
     background: #ffffff;
     display: -webkit-box;
@@ -523,4 +546,19 @@ button {
     box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
     margin-top: -16px;
     margin-left: 10px;
+}
+
+.total-devotions {
+    padding: 0;
+    margin: -94px 0px 0px -5px;
+    position: absolute;
+    color: #ff4041;
+    font-weight: bold;
+    font-size: 19pt;
+}
+
+.good-samaritan {
+    background-image: url('/images/good-samaritan.webp');
+    min-height: 700px;
+    background-size: cover;
 }

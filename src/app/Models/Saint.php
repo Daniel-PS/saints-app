@@ -60,12 +60,15 @@ class Saint
         $offset = $perPage * ($page - 1);
 
         $sql = "
-        SELECT s.*, u.name AS user_name
+        SELECT s.*, u.name AS user_name, count(uds.id) as totalDevotions
             FROM saints s
-        JOIN users u
-        ON u.id = s.user_id
+        LEFT OUTER JOIN users u
+            ON u.id = s.user_id
+        LEFT OUTER JOIN users_devotion_saints uds
+            ON uds.saint_id = s.id
         WHERE
             approved = ?
+        GROUP BY (s.id)
         LIMIT {$offset}, {$perPage}";
 
         $stmt = $pdo->prepare($sql);
@@ -89,7 +92,7 @@ class Saint
 
         $stmt = $pdo->prepare(
             'SELECT s.*, u.name as user_name FROM saints s
-            JOIN users u
+            LEFT OUTER JOIN users u
             ON u.id = s.user_id
             WHERE s.id=?'
         );
@@ -379,6 +382,7 @@ class Saint
     public function update()
     {
         $updatedSaint = [
+            $this->user_id,
             $this->photo,
             $this->name,
             $this->baptism_name,
@@ -397,6 +401,7 @@ class Saint
         $stmt = $pdo->prepare(
             'UPDATE saints
             SET
+                user_id=?,
                 photo=?,
                 name=?,
                 baptism_name=?,
@@ -435,5 +440,25 @@ class Saint
     {
         $this->approved = 1;
         $this->update();
+    }
+
+    public function removeAuthorship()
+    {
+        $this->user_id = null;
+
+        $updatedSaint = [
+            $this->user_id,
+            $this->id
+        ];
+
+        $pdo = Connection::make();
+        $stmt = $pdo->prepare(
+            'UPDATE saints
+            SET
+                user_id=?,
+            WHERE id=?'
+        );
+
+        return $stmt->execute($updatedSaint);
     }
 }

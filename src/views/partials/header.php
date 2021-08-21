@@ -61,36 +61,3 @@
             </div>
         </div>
     </nav>
-
-    <style>
-.profile-details {
-    display: flex;
-    align-items: center;
-    background: #F5F6FA;
-    border: 2px solid #EFEEF1;
-    border-radius: 6px;
-    height: 50px;
-    min-width: 190px;
-    padding: 0 15px 0 2px;
-}
-
- /* .profile-details img {
-    height: 40px;
-    width: 40px;
-    border-radius: 6px;
-    object-fit: cover;
-} */
-
- .profile-details .admin_name {
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    margin: 0 10px;
-    white-space: nowrap;
-}
-
- .profile-details i {
-    font-size: 20px;
-    color: #333;
-}
-    </style>

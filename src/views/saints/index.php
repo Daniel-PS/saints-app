@@ -35,7 +35,18 @@
                             <br>
                             <span class="citation-name">Feast Date &#8212;</span> <?= h($saint['feast_date']) ?>
                         </p>
-                        <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>"><?= h($saint['user_name']) ?></a></p>
+                        <?php if ($saint['user_id'])  : ?>
+                            <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>" target="_blank" style="text-decoration: none;"><?= h($saint['user_name']) ?></a></p>
+                        <?php else : ?>
+                            <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank" style="text-decoration: none;">Good Samaritan</a></p>
+                        <?php endif; ?>
+                        <div>
+                            <div class="fab fab-icon-holder" style="padding: 0; background: none; box-shadow: none;">
+                                <i class="fas fa-cross" style="padding: 0; font-size: 13pt; color: #2f404e; background: none;">
+                                    <p class="total-devotions" style="margin: -50px 0px 0px 0px; color: #2f404e;"><?= $saint['totalDevotions'] ?></p>
+                                </i>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr style="margin-top: 50px;">

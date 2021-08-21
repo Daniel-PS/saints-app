@@ -33,7 +33,11 @@
                                 <p class="card-text" style="font-style: italic;">
                                     <?= h($saint['phrase']) ?>
                                 </p>
-                                <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>"><?= h($saint['user_name']) ?></a></p>
+                                <?php if ($saint['user_id']) : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>" target="_blank"><?= h($saint['user_name']) ?></a></p>
+                                <?php else : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank">Good Samaritan</a></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

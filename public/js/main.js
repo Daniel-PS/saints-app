@@ -313,4 +313,19 @@ $(document).ready(() => {
             }
         });
     });
+
+    $('#mark-as-devoted').click((event) => {
+        const saintId = event.target.id;
+
+        $.ajax({
+            url: '/devote',
+            type: 'POST',
+            data: {
+                id: saintId
+            },
+            success: () => {
+                location.reload();
+            }
+        });
+    });
 });

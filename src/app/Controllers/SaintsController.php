@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Session;
 use App\Models\Saint;
 use App\Models\Comment;
+use App\Models\UsersDevotionSaints;
 
 class SaintsController
 {
@@ -69,7 +70,6 @@ class SaintsController
 
     public function show()
     {
-
         preg_match_all('!\d+!', $_SERVER['REQUEST_URI'], $matches);
         $saintId = $matches[0][0];
 
@@ -83,6 +83,7 @@ class SaintsController
         $perPage = 10;
 
         $commentsPaginator = Comment::getBySaint($saintId, $perPage, $page);
+        $totalDevotions = UsersDevotionSaints::countBySaint($saintId);
 
         if (! $saint->getApproved()) {
             if ($saint->getUserId() === auth()->getId()) {
@@ -98,6 +99,7 @@ class SaintsController
         view('saints/show.php', [
             'saint' => $saint,
             'page' => $page,
+            'totalDevotions' => $totalDevotions,
             'commentsPaginator' => $commentsPaginator
         ]);
     }
@@ -130,5 +132,25 @@ class SaintsController
     public function destroy()
     {
         //
+    }
+
+    public function removeAuthorship()
+    {
+        if (! auth()) {
+            redirect('/');
+        }
+
+        $saintId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
+        $saint = Saint::getById($saintId);
+
+        if (! $saint) {
+            redirect('/');
+        }
+
+        if (auth()->getId() != $saint->getUserId()) {
+            redirect('/');
+        }
+
+        $saint->removeAuthorship();
     }
 }

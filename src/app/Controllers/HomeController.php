@@ -14,4 +14,11 @@ class HomeController
             'saints' => $saints
         ]);
     }
+
+    public function goodSamaritan()
+    {
+        // $saints = Saint::getByApproval(1);
+
+        view('goodSamaritan.php');
+    }
 }

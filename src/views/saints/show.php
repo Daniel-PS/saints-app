@@ -24,7 +24,11 @@
                                     <br>
                                     <span class="citation-name">Feast Date &#8212;</span> <?= h($saint->getFeastDate()) ?>
                                 </p>
-                                <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint->getUserId()) ?>"><?= h($saint->user_name) ?></a></p>
+                                <?php if ($saint->user_name) : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint->getUserId()) ?>" target="_blank" style="text-decoration: none;"><?= h($saint->user_name) ?></a></p>
+                                <?php else : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank" style="text-decoration: none;">Good Samaritan</a></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -47,10 +51,12 @@
                             </div>
                         </li>
                         <li>
-                            <span class="fab-label">Remove authorship</span>
-                            <div class="fab-icon-holder">
-                                <i class="fas fa-minus-circle"></i>
-                            </div>
+                            <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/remove-authorship" style="display: flex; text-decoration: none;">
+                                <span class="fab-label">Remove authorship</span>
+                                <div class="fab-icon-holder">
+                                    <i class="fas fa-minus-circle"></i>
+                                </div>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -58,13 +64,15 @@
         <?php endif; ?>
     <?php endif; ?>
     <?php if (auth()) : ?>
-        <div class="fab-container">
+        <div class="fab-container" id="mark-as-devoted">
             <div class="fab fab-icon-holder" style="background: #ff4040;">
-                <i class="fas fa-heart"></i>
+                <i id="<?= h($saint->getId()) ?>"  class="fas fa-heart">
+                    <p class="total-devotions"><?= $totalDevotions ?></p>
+                </i>
             </div>
             <ul class="fab-options">
                 <li>
-                    <span class="fab-label" style="background: #ff4040;">Mark as Saint of Devotion</span>
+                    <span class="fab-label" style="background: #ff4040; margin-top: -60px;">Mark as Saint of Devotion</span>
                 </li>
             </ul>
         </div>
