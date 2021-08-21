@@ -14,7 +14,7 @@ class Comment
     private $approved;
     private $errors;
 
-    public static function countByApproved(mixed $id): ?int
+    public static function countBySaint(mixed $id): ?int
     {
         $pdo = Connection::make();
 
@@ -38,11 +38,11 @@ class Comment
         return (int) $data['total'];
     }
 
-    public static function getByApproved($id, $perPage = 10, $page = 1): Paginator
+    public static function getBySaint($id, $perPage = 10, $page = 1): Paginator
     {
         $pdo = Connection::make();
 
-        $total = static::countByApproved($id);
+        $total = static::countBySaint($id);
 
         if ($total === 0) {
             return new Paginator($page, $perPage, $total, []);
@@ -61,10 +61,72 @@ class Comment
             c.saint_id = ?
         AND
             approved = 1
+        ORDER BY c.created_at DESC
         LIMIT {$offset}, {$perPage}";
 
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$id]);
+
+        return new Paginator($page, $perPage, $total, $stmt->fetchAll());
+    }
+
+    public static function countByApproval(mixed $approval): ?int
+    {
+        $pdo = Connection::make();
+
+        $sql = '
+        SELECT count(id) AS total
+            FROM comments
+        WHERE
+            approved = ?
+        LIMIT 1';
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$approval]);
+        $data = $stmt->fetch();
+
+        if (empty($data)) {
+            return null;
+        }
+
+        return (int) $data['total'];
+    }
+
+    public static function getByApproval($approval, $perPage = 10, $page = 1): Paginator
+    {
+        $pdo = Connection::make();
+
+        $total = static::countByApproval($approval);
+
+        if ($total === 0) {
+            return new Paginator($page, $perPage, $total, []);
+        }
+
+        $offset = $perPage * ($page - 1);
+
+        $sql = "
+        SELECT
+            u.name,
+            u.photo,
+            u.id AS user_id,
+            c.*,
+            uds.id AS devoted,
+            s.id AS saint_id,
+            s.name AS saint_name,
+            s.photo AS saint_photo
+        FROM comments c
+        JOIN users u
+        ON u.id = c.user_id
+        LEFT OUTER JOIN users_devotion_saints uds
+        ON uds.user_id = c.user_id AND uds.saint_id = c.saint_id
+        JOIN saints s
+        ON s.id = c.saint_id
+        WHERE
+            c.approved = ?
+        LIMIT {$offset}, {$perPage}";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$approval]);
 
         return new Paginator($page, $perPage, $total, $stmt->fetchAll());
     }
@@ -212,5 +274,11 @@ class Comment
         $result = $stmt->execute([$this->id]);
 
         return $result;
+    }
+
+    public function approve()
+    {
+        $this->approved = 1;
+        $this->update();
     }
 }

@@ -49,7 +49,7 @@ function handleUploadedFile($file_key, $old_photo = '')
 
 function deletePhoto($old_photo)
 {
-    unlink(PUBLIC_UPLOADS_FOLDER_PATH . '/' . $old_photo['photo']);
+    unlink(PUBLIC_UPLOADS_FOLDER_PATH . '/' . $old_photo);
 }
 
 function h($name, $quotes = ENT_QUOTES)
@@ -76,4 +76,10 @@ function generateUniqueName(): string
 function auth(): ?object
 {
     return Session::get('user');
+}
+
+function dateFormat($value)
+{
+    $newDate = DateTime::createFromFormat('Y-m-d H:m:s', $value);
+    return $value = $newDate->format('d/m/Y');
 }

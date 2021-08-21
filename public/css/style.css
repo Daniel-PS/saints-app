@@ -512,3 +512,15 @@ button {
 .inputfile + label * {
     cursor: pointer;
 }
+
+.saint-comment {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+    vertical-align: bottom!important;
+    border: 3px solid #fff;
+    box-shadow: 0 3px 8px 0 rgb(0 0 0 / 20%);
+    margin-top: -16px;
+    margin-left: 10px;
+}

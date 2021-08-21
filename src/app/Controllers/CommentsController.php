@@ -93,7 +93,7 @@ class CommentsController
         $comment = Comment::getById($commentId);
 
         if (! $comment) {
-            redirectWithMessage('/saints/' . $saintId, 'Comentário não existe');
+            redirectWithMessage('/saints/' . $saintId, 'Comment does not exist');
         }
 
         if (auth()->getId() != $comment->getUserId()) {
@@ -116,7 +116,7 @@ class CommentsController
 
         $comment->update();
 
-        Session::set('message', 'Comment edited successfully! Wait for approval');
+        Session::set('message', 'Comment approved successfully!');
     }
 
     public function destroy()

@@ -19,12 +19,13 @@ class Saint
     private $city;
     private $bio;
     private $prayer;
+    private $approved;
     private $errors;
     private $created_at;
 
-    private $old_photo;
+    private $oldPhoto;
 
-    public static function countByApproved($approved)
+    public static function countByApproval($approved)
     {
         $pdo = Connection::make();
 
@@ -46,11 +47,11 @@ class Saint
         return (int) $data['total'];
     }
 
-    public static function getByApproved($approved, $perPage = 10, $page = 1): Paginator
+    public static function getByApproval($approved, $perPage = 10, $page = 1): Paginator
     {
         $pdo = Connection::make();
 
-        $total = static::countByApproved($approved);
+        $total = static::countByApproval($approved);
 
         if ($total === 0) {
             return new Paginator($page, $perPage, $total, []);
@@ -274,9 +275,9 @@ class Saint
         return $this->errors;
     }
 
-    public function setOldPhoto($old_photo)
+    public function setOldPhoto($oldPhoto)
     {
-        $this->old_photo = $old_photo;
+        $this->oldPhoto = $oldPhoto;
     }
 
     public function hasValidData()
@@ -388,36 +389,51 @@ class Saint
             $this->phrase,
             $this->bio,
             $this->prayer,
+            $this->approved,
             $this->id
         ];
 
         $pdo = Connection::make();
         $stmt = $pdo->prepare(
             'UPDATE saints
-            SET photo=?, name=?, baptism_name=?, birthdate=?, feast_date=?, nation=?, city=?, bio=?, prayer=?
+            SET
+                photo=?,
+                name=?,
+                baptism_name=?,
+                birthdate=?,
+                feast_date=?,
+                nation=?,
+                city=?,
+                phrase=?,
+                bio=?,
+                prayer=?,
+                approved=?
             WHERE id=?'
         );
 
         $result = $stmt->execute($updatedSaint);
 
         if ($result) {
-            handleUploadedFile('photo', $this->old_photo);
+            handleUploadedFile('photo', $this->oldPhoto);
         }
+
         return $result;
     }
 
-    public static function delete($id)
+    public function delete()
     {
         $pdo = Connection::make();
-        $stmt = $pdo->prepare('SELECT photo FROM saints WHERE id=?');
-        $stmt->execute([$id]);
-        $photo = $stmt->fetch();
-
         $stmt = $pdo->prepare('DELETE FROM saints WHERE id=?');
-        $result = $stmt->execute([$id]);
+        $result = $stmt->execute([$this->id]);
 
         if ($result) {
-            deletePhoto($photo);
+            deletePhoto($this->photo);
         }
+    }
+
+    public function approve()
+    {
+        $this->approved = 1;
+        $this->update();
     }
 }

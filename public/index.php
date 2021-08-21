@@ -34,4 +34,11 @@ Router::get('/users/{id}', 'UsersController@show');
 Router::get('/users/{id}/edit', 'UsersController@edit');
 Router::patch('/users', 'UsersController@update');
 
+Router::get('/approval/saints', 'ApprovalController@saints');
+Router::patch('/approval/saints/approve', 'ApprovalController@approveSaint');
+Router::delete('/approval/saints/remove', 'ApprovalController@removeSaint');
+Router::get('/approval/comments', 'ApprovalController@comments');
+Router::patch('/approval/comments/approve', 'ApprovalController@approveComment');
+Router::delete('/approval/comments/remove', 'ApprovalController@removeComment');
+
 Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

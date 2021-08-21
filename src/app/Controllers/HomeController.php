@@ -8,7 +8,7 @@ class HomeController
 {
     public function index()
     {
-        $saints = Saint::getByApproved(1);
+        $saints = Saint::getByApproval(1);
 
         view('home.php', [
             'saints' => $saints

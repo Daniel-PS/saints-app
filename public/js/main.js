@@ -253,4 +253,64 @@ $(document).ready(() => {
             }
         });
     });
+
+    $('a.approve-comment').click((event) => {
+        const commentId = event.target.id;
+
+        $.ajax({
+            url: '/approval/comments/approve',
+            type: 'PATCH',
+            data: JSON.stringify({
+                id: commentId
+            }),
+            success: () => {
+                location.reload();
+            }
+        });
+    });
+
+    $('a.remove-comment').click((event) => {
+        const commentId = event.target.id;
+
+        $.ajax({
+            url: '/approval/comments/remove',
+            type: 'DELETE',
+            data: JSON.stringify({
+                id: commentId
+            }),
+            success: () => {
+                location.reload();
+            }
+        });
+    });
+
+    $('a.approve-saint').click((event) => {
+        const saintId = event.target.id;
+
+        $.ajax({
+            url: '/approval/saints/approve',
+            type: 'PATCH',
+            data: JSON.stringify({
+                id: saintId
+            }),
+            success: () => {
+                location.reload();
+            }
+        });
+    });
+
+    $('a.remove-saint').click((event) => {
+        const saintId = event.target.id;
+
+        $.ajax({
+            url: '/approval/saints/remove',
+            type: 'DELETE',
+            data: JSON.stringify({
+                id: saintId
+            }),
+            success: () => {
+                location.reload();
+            }
+        });
+    });
 });

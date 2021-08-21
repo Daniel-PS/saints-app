@@ -13,7 +13,7 @@ class SaintsController
         $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
         $perPage = 10;
 
-        $saintsPaginator = Saint::getByApproved(1, $perPage, $page);
+        $saintsPaginator = Saint::getByApproval(1, $perPage, $page);
 
         $message = Session::get('message');
         Session::clear('message');
@@ -82,7 +82,7 @@ class SaintsController
         $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
         $perPage = 10;
 
-        $commentsPaginator = Comment::getByApproved($saintId, $perPage, $page);
+        $commentsPaginator = Comment::getBySaint($saintId, $perPage, $page);
 
         if (! $saint->getApproved()) {
             if ($saint->getUserId() === auth()->getId()) {
