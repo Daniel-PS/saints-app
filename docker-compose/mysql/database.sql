@@ -40,7 +40,7 @@ CREATE TABLE `comments` (
   `user_id` int,
   `saint_id` int,
   `comment` longtext,
-  `approved` tinyint,
+  `approved` tinyint DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
@@ -67,6 +67,7 @@ ALTER TABLE saints_db.comments ADD CONSTRAINT comments_FK_1 FOREIGN KEY (saint_i
 
 INSERT INTO saints_db.user_types (`type`, created_at, updated_at) VALUES ('Admin', NULL, NULL),	 ('Normal', NULL, NULL);
 
-INSERT INTO saints_db.user_types (type) VALUES ('Admin'), ('Normal');
+INSERT INTO saints_db.user_types (type) VALUES ('Admin');
+INSERT INTO saints_db.user_types (type) VALUES ('Normal');
 
 INSERT INTO saints_db.users (user_type_id, photo, name, surname, email, password, created_at, updated_at) VALUES (1, NULL, 'Daniel', 'Pereira', 'daniel.per.s@hotmail.com', '$2y$10$qQjKC7g.YgX8jyDGVqxoBuf8i/zpDZo8oVSvdcgEzKhn62MDI60Zy', NULL, NULL);
