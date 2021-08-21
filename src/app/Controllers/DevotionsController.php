@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Session;
+use App\Models\Saint;
 use App\Models\UsersDevotionSaints;
 
 class DevotionsController
@@ -11,6 +12,13 @@ class DevotionsController
     {
         if (! auth()) {
             redirect('/');
+        }
+
+        $saint = Saint::getById($_POST['id']);
+
+        if (! $saint->getApproved()) {
+            Session::set('message', 'Saint is not approved yet');
+            return;
         }
 
         $userDevotionSaint = UsersDevotionSaints::getByUserSaint($_POST['id']);

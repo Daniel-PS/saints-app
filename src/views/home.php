@@ -3,6 +3,11 @@
 ?>
   <!-- HERO SECTION -->
   <section id="hero">
+        <?php if (isset($message)) : ?>
+            <div id="hideMe" class="message" style="margin-top: 100px;">
+                <p class="message-text"><?= $message ?></p>
+            </div>
+        <?php endif; ?>
         <div class="container">
             <div class="row">
                 <div class="col">

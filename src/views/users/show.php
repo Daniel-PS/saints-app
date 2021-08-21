@@ -180,7 +180,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col">
-                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">None of the Saints you registered are needing approval</h1>
+                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">None of the Saints you registered are needing approval (this is only visible to you)</h1>
                                         </div>
                                     </div>
                                 </div>

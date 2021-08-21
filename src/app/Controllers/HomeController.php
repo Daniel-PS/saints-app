@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Session;
 use App\Models\Saint;
 
 class HomeController
@@ -10,8 +11,12 @@ class HomeController
     {
         $saints = Saint::getByApproval(1);
 
+        $message = Session::get('message');
+        Session::clear('message');
+
         view('home.php', [
-            'saints' => $saints
+            'saints' => $saints,
+            'message' => $message
         ]);
     }
 

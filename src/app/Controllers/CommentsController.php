@@ -18,7 +18,11 @@ class CommentsController
         $saint = Saint::getById($saintId);
 
         if (! $saint) {
-            redirect('/');
+            redirectWithMessage('/', 'Saint does not exist');
+        }
+
+        if (! $saint->getApproved()) {
+            redirectWithMessage('/saints/' . $saint->getId(), 'Saint is not approved yet');
         }
 
         view('saints/comments/create.php', [

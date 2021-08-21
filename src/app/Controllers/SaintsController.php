@@ -89,7 +89,7 @@ class SaintsController
         Session::clear('message');
 
         if (! $saint->getApproved()) {
-            if (auth()->getTypeId() == 1) {
+            if (auth()->getId() == $saint->getUserId() || auth()->getTypeId() == 1) {
                 view('saints/show.php', [
                     'saint' => $saint,
                     'message' => $message,
