@@ -2,10 +2,16 @@
 
 namespace App\Controllers;
 
+use App\Models\Saint;
+
 class HomeController
 {
     public function index()
     {
-        view('home.php');
+        $saints = Saint::getByApproved(1);
+
+        view('home.php', [
+            'saints' => $saints
+        ]);
     }
 }

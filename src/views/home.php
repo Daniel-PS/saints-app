@@ -22,90 +22,22 @@
                 </div>
             </div>
             <div class="row cards">
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint bernadette.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Bernadette</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">John</a></p>
+                <?php foreach ($saints->getItems() as $saint) : ?>
+                    <div class="col-md-4 d-flex justify-content-center">
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
+                                <h5 class="card-title">
+                                    <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
+                                </h5>
+                                <p class="card-text" style="font-style: italic;">
+                                    <?= h($saint['phrase']) ?>
+                                </p>
+                                <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>"><?= h($saint['user_name']) ?></a></p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint germaine cousin.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Germaine Cousin</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">Mary</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint joseph.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Joseph</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">Claire</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint therese.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Therese</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">Mary</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint teresa of avila.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Teresa of Avila</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">Paul</a></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            <img src="<?= BASE_URL ?>images/user_uploads/saint clare of assisi.jpg" alt="service" class="icon">
-                            <h5 class="card-title">
-                                <a href="#">Saint Claire of Assisi</a>
-                            </h5>
-                            <p class="card-text">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            </p>
-                            <p class="card-text">By <a href="#">Therese</a></p>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </section>

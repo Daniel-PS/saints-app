@@ -18,6 +18,12 @@ Router::get('/saints/{id}/edit', 'SaintsController@edit');
 Router::patch('/saints/{id}/update', 'SaintsController@update');
 Router::delete('/saints/{id}/delete', 'SaintsController@destroy');
 
+Router::get('/saints/{id}/comments/create', 'CommentsController@create');
+Router::post('/saints/{id}/comments', 'CommentsController@store');
+Router::get('/saints/{id}/comments/{id}/edit', 'CommentsController@edit');
+Router::patch('/saints/{id}/comments/{id}', 'CommentsController@update');
+Router::delete('/saints/{id}/comments/{id}', 'CommentsController@destroy');
+
 Router::get('/register', 'AuthController@register');
 Router::post('/', 'AuthController@doRegister');
 Router::get('/login', 'AuthController@login');
@@ -26,6 +32,6 @@ Router::get('/logout', 'AuthController@logout');
 
 Router::get('/users/{id}', 'UsersController@show');
 Router::get('/users/{id}/edit', 'UsersController@edit');
-Router::get('/users/', 'UsersController@update');
+Router::patch('/users', 'UsersController@update');
 
 Router::dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

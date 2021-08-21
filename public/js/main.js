@@ -198,4 +198,59 @@ $(document).ready(() => {
             return false;
         }
     });
+
+    // Comments
+
+    $('#submit-comment').submit(() => {
+        if (! $('#saint-comment').val()) {
+            $('#saint-comment').addClass('is-invalid');
+
+            if ($('#saint-comment').attr('title') !== undefined) {
+                $('#saint-comment').attr('title', 'Fill this field').tooltip('_fixTitle');
+            }
+
+            return false;
+        }
+    });
+
+    $('#submit-edited-comment').submit(() => {
+        if (! $('#saint-comment').val()) {
+            $('#saint-comment').addClass('is-invalid');
+
+            if ($('#saint-comment').attr('title') !== undefined) {
+                $('#saint-comment').attr('title', 'Fill this field').tooltip('_fixTitle');
+            }
+
+            return false;
+        } else {
+            const urlIds = location.pathname.substr(1).match(/\/(\d+)+[\/]?/g).map(id => id.replace(/\//g, ''));
+            [saintId, commentId] = urlIds;
+
+            const comment = $('#submit-edited-comment').find('#saint-comment');
+
+            $.ajax({
+                url: '/saints/' + saintId + '/comments/' + commentId,
+                type: 'PATCH',
+                data: JSON.stringify({
+                    comment: comment.val()
+                }),
+                success: () => {
+                    window.location.href = '/saints/' + saintId;
+                }
+            });
+        }
+    });
+
+    $('a.text-danger').click((event) => {
+        const saintId = location.pathname.substr(1).match(/\/(\d+)+[\/]?/g).map(id => id.replace(/\//g, ''))[0];
+        const commentId = event.target.id;
+
+        $.ajax({
+            url: '/saints/' + saintId + '/comments/' + commentId,
+            type: 'DELETE',
+            success: () => {
+                location.reload();
+            }
+        });
+    });
 });

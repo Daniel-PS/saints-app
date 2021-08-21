@@ -284,27 +284,27 @@ class Saint
         $this->errors = [];
 
         if (empty($this->photo)) {
-            $this->errors['photo'] = 'Preencha este campo.';
+            $this->errors['photo'] = 'Fill this field.';
         }
 
         if (empty($this->name)) {
-            $this->errors['name'] = 'Preencha este campo.';
+            $this->errors['name'] = 'Fill this field.';
         }
 
         if (empty($this->baptism_name)) {
-            $this->errors['baptism_name'] = 'Preencha este campo.';
+            $this->errors['baptism_name'] = 'Fill this field.';
         }
 
         if (empty($this->nation)) {
-            $this->errors['nation'] = 'Preencha este campo.';
+            $this->errors['nation'] = 'Fill this field.';
         }
 
         if (empty($this->city)) {
-            $this->errors['city'] = 'Preencha este campo.';
+            $this->errors['city'] = 'Fill this field.';
         }
 
         if (empty($this->birthdate)) {
-            $this->errors['birthdate'] = 'Preencha este campo.';
+            $this->errors['birthdate'] = 'Fill this field.';
         } else {
             $birthdayDate = DateTime::createFromFormat('d/m/Y', $this->birthdate);
             $this->birthdate = $birthdayDate->format('Y-m-d');
@@ -315,7 +315,7 @@ class Saint
         }
 
         if (empty($this->feast_date)) {
-            $this->errors['feast_date'] = 'Preencha este campo.';
+            $this->errors['feast_date'] = 'Fill this field.';
         } else {
             $birthdayDate = DateTime::createFromFormat('d/m/Y', $this->feast_date);
             $this->feast_date = $birthdayDate->format('Y-m-d');
@@ -375,7 +375,7 @@ class Saint
         return $result;
     }
 
-    public function saveUpdate()
+    public function update()
     {
         $updatedSaint = [
             $this->photo,

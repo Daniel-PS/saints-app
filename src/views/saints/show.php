@@ -111,7 +111,7 @@
                     <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
                         <table class="table manage-candidates-top mb-0">
                             <tbody>
-                                <?php if (! empty($comments)) : ?>
+                                <?php if (! empty($commentsPaginator->getItems())) : ?>
                                     <?php foreach ($commentsPaginator->getItems() as $comment) : ?>
                                         <tr class="candidates-list">
                                             <td class="title">
@@ -121,9 +121,13 @@
                                                 <div class="candidate-list-details">
                                                     <div class="candidate-list-info">
                                                         <div class="candidate-list-title">
-                                                            <h5 class="mb-0"><a href="#" style="text-decoration: none;"><?= h($comment['name']) ?></a></h5>
-                                                            <a class="candidate-list-favourite order-2 text-danger" href="#"><i class="fas fa-cross"></i></a>
-                                                            <span class="candidate-list-time order-1">Saint of Devotion</span>
+                                                            <h5 class="mb-0"><a href="<?= BASE_URL ?>users/<?= $comment['user_id'] ?>" style="text-decoration: none;"><?= h($comment['name']) ?></a></h5>
+                                                            <?php if ($comment['devoted']) : ?>
+                                                                <a class="candidate-list-favourite order-2" style="color: transparent;" href="#">
+                                                                    <i class="fas fa-cross"></i>
+                                                                </a>
+                                                                <span class="candidate-list-time order-1">Saint of Devotion</span>
+                                                            <?php endif; ?>
                                                         </div>
                                                         <div class="candidate-list-option">
                                                             <ul class="list-unstyled">
@@ -133,21 +137,63 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <ul class="list-unstyled mb-0 d-flex justify-content-end">
-                                                    <li><a href="#" class="text-primary" data-toggle="tooltip" title="" data-original-title="view"><i class="far fa-eye"></i></a></li>
-                                                    <li><a href="#" class="text-info" data-toggle="tooltip" title="" data-original-title="Edit"><i class="fas fa-pencil-alt"></i></a></li>
-                                                    <li><a href="#" class="text-danger" data-toggle="tooltip" title="" data-original-title="Delete"><i class="far fa-trash-alt"></i></a></li>
-                                                </ul>
-                                            </td>
+                                            <?php if (auth()) : ?>
+                                                <?php if (auth()->getId() === $comment['user_id']) : ?>
+                                                    <td>
+                                                        <ul class="list-unstyled mb-0 d-flex justify-content-end">
+                                                            <li>
+                                                                <a href="<?= BASE_URL ?>saints/<?= $saint->getId() ?>/comments/<?= $comment['id'] ?>/edit" class="text-info" data-toggle="tooltip" title="Edit" data-original-title="Edit">
+                                                                    <i class="fas fa-pencil-alt"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="text-danger" data-toggle="tooltip" title="Delete" data-original-title="Delete" style="cursor: pointer;">
+                                                                    <i id="<?= $comment['id'] ?>" class="far fa-trash-alt"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
                                         </tr>
                                     <?php endforeach; ?>
                                 <?php else : ?>
                                     <h4 style="text-align: center;">Unfortunately, there are no comments for this Saint</h4>
+                                    <h6 style="text-align: center;">Be the First!</h6>
                                 <?php endif; ?>
                             </tbody>
                         </table>
+                        <?php if (auth()) : ?>
+                            <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/comments/create" class="btn btn-dark btn-lg" style="margin-top: 10px;">Add a comment</a>
+                        <?php endif; ?>
                     </div>
+                    <nav>
+                        <ul class="pagination" style="place-content: center;">
+                            <?php if ($page > 1) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= BASE_URL . 'saints/' . $saint->getId() . '' ?>">
+                                        First
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= BASE_URL . 'saints/' . $saint->getId() . '?page=' . ($page - 1) ?>">
+                                        Previous
+                                    </a>
+                                </li>
+                            <?php endif ?>
+                            <?php if ($page < $commentsPaginator->getLastPage()) : ?>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= BASE_URL . 'saints/' . $saint->getId() . '?page=' . ($page + 1) ?>">
+                                        Next
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="<?= BASE_URL . 'saints/' . $saint->getId() . '?page=' . $commentsPaginator->getLastPage() ?>">
+                                    </a>
+                                </li>
+                            <?php endif ?>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>

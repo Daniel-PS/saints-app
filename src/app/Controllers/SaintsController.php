@@ -51,7 +51,7 @@ class SaintsController
         $saint->setPhrase($_POST['phrase'] ?? '');
         $saint->setBio($_POST['bio'] ?? '');
         $saint->setPrayer($_POST['prayer'] ?? '');
-        $saint->setApproved(auth()->getTypeId() === 1  ? 1 : 0);
+        $saint->setApproved(auth()->getTypeId() == 1  ? 1 : 0);
 
         if (! $saint->hasValidData()) {
             $errors = $saint->getErrors();
@@ -69,7 +69,9 @@ class SaintsController
 
     public function show()
     {
-        $saintId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
+
+        preg_match_all('!\d+!', $_SERVER['REQUEST_URI'], $matches);
+        $saintId = $matches[0][0];
 
         $saint = Saint::getById($saintId);
 
@@ -78,9 +80,9 @@ class SaintsController
         }
 
         $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
-        $perPage = 1;
+        $perPage = 10;
 
-        $commentsPaginator = Comment::getCommentsFromSaint($saintId, $perPage, $page);
+        $commentsPaginator = Comment::getByApproved($saintId, $perPage, $page);
 
         if (! $saint->getApproved()) {
             if ($saint->getUserId() === auth()->getId()) {
