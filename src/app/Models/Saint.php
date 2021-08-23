@@ -326,11 +326,11 @@ class Saint
         $this->errors = [];
 
         if (empty($this->photo)) {
-            $this->errors['photo'] = 'Fill this field.';
+            $this->errors['photo'] = 'Fill this field';
         }
 
         if (empty($this->name)) {
-            $this->errors['name'] = 'Fill this field.';
+            $this->errors['name'] = 'Fill this field';
         }
 
         if (! empty($this->birthdate)) {
@@ -381,7 +381,7 @@ class Saint
         $this->errors = [];
 
         if (empty($this->name)) {
-            $this->errors['name'] = 'Fill this field.';
+            $this->errors['name'] = 'Fill this field';
         }
 
         if (! empty($this->birthdate)) {

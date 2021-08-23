@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Session;
-
 class Router
 {
     /**
@@ -58,7 +56,5 @@ class Router
         list($controllerClass, $controllerMethod) = explode('@', static::$routes[$route]);
         $controller = new $controllerClass();
         $controller->{$controllerMethod}();
-
-        Session::clear('old_input');
     }
 }

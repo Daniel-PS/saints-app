@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\UserType;
+use App\Models\User;
 
 view('partials/header.php');
 ?>
@@ -48,10 +48,10 @@ view('partials/header.php');
         </div>
     </div>
     <?php if (auth()) : ?>
-        <div class="fab-container" style="right: 130px;">
-            <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
-                <ul class="fab-options">
-                    <?php if (auth()->getId() == $saint->getUserId() || auth()->getTypeId() == UserType::ADMIN) : ?>
+        <?php if (auth()->getId() == $saint->getUserId() || auth()->getTypeId() == User::ADMIN) : ?>
+            <div class="fab-container" style="right: 130px;">
+                <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
+                    <ul class="fab-options">
                         <li>
                             <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/edit" style="display: flex; text-decoration: none;">
                                 <span class="fab-label">Edit Saint</span>
@@ -60,20 +60,20 @@ view('partials/header.php');
                                 </div>
                             </a>
                         </li>
-                    <?php endif; ?>
-                    <?php if (auth()->getId() === $saint->getUserId()) : ?>
-                        <li>
-                            <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/remove-authorship" style="display: flex; text-decoration: none;">
-                                <span class="fab-label">Remove authorship</span>
-                                <div class="fab-icon-holder">
-                                    <i class="fas fa-minus-circle"></i>
-                                </div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                        <?php if (auth()->getId() === $saint->getUserId()) : ?>
+                            <li>
+                                <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/remove-authorship" style="display: flex; text-decoration: none;">
+                                    <span class="fab-label">Remove authorship</span>
+                                    <div class="fab-icon-holder">
+                                        <i class="fas fa-minus-circle"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
             </div>
+        <?php endif; ?>
     <?php endif; ?>
     <?php if (auth()) : ?>
         <div class="fab-container" id="mark-as-devoted">
@@ -136,7 +136,11 @@ view('partials/header.php');
                                         <tr class="candidates-list">
                                             <td class="title">
                                                 <div class="thumb">
-                                                    <img class="img-fluid" src="<?= BASE_URL ?>images/user_uploads/<?= h($comment['photo']) ?>" alt="">
+                                                    <?php if ($comment['photo']) : ?>
+                                                        <img class="img-fluid" src="<?= BASE_URL ?>images/user_uploads/<?= h($comment['photo']) ?>" alt="">
+                                                    <?php else : ?>
+                                                        <img class="img-fluid" src="<?= BASE_URL ?>images/no_photo.jpg">
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="candidate-list-details">
                                                     <div class="candidate-list-info">

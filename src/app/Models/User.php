@@ -18,6 +18,9 @@ class User
     private $oldPhoto;
     private $errors;
 
+    public const ADMIN = 1;
+    public const NORMAL = 2;
+
     public function setId($id)
     {
         $this->id = $id;
@@ -126,6 +129,7 @@ class User
 
         if (empty($this->password)) {
             $this->errors['password'] = 'Fill this field.';
+            $this->errors['confirm_password'] = 'Fill this field.';
         }
 
         return empty($this->errors);

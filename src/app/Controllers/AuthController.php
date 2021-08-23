@@ -13,7 +13,12 @@ class AuthController
             redirect('/');
         }
 
-        view('auth/register.php');
+        $errors = Session::get('errors');
+        Session::clear('errors');
+
+        view('auth/register.php', [
+            'errors' => $errors
+        ]);
     }
 
     public function login()
@@ -74,7 +79,6 @@ class AuthController
             Session::set('old_input', $_POST);
 
             redirect('register');
-            return;
         }
 
         $user->save();
@@ -94,13 +98,12 @@ class AuthController
     private function handleInvalidLogin()
     {
         Session::set('errors', [
-            'login' => 'Invalid data'
+            'password' => 'Email or passwords are incorrect'
         ]);
 
         Session::set('old_input', $_POST);
 
-        redirect('login');
-        exit();
+        redirect('/login');
     }
 
     private function checkIfUserAlreadyExists()
@@ -128,8 +131,7 @@ class AuthController
             ]);
             Session::set('old_input', $_POST);
 
-            redirect('register');
-            exit();
+            redirect('/register');
         }
     }
 }

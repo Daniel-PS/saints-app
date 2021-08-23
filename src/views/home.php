@@ -13,9 +13,11 @@
                 <div class="col">
                     <h1>Catholic <br> Saints</h1>
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ratione, magnam voluptas ad ipsam vero ipsa itaque doloribus, mollitia dignissimos unde officia nisi inventore saepe maxime sint a quibusdam minus cupiditate
+                        Start contributing to this database of Saints! Add Saints, add to your list of devotions!
                     </p>
-                    <button class="btn btn-dark btn-lg">Large button</button>
+                    <a href="<?= BASE_URL ?>saints/create">
+                        <button class="btn btn-dark btn-lg">Start Now</button>
+                    </a>
                 </div>
                 <div class="col img-col">
                     <img src="<?= BASE_URL ?>images/banner.jpg" alt="Banner" class="img-fluid">

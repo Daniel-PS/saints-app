@@ -217,7 +217,7 @@ class Comment
         $this->errors = [];
 
         if (empty($this->comment)) {
-            $this->errors['comment'] = 'Fill this field.';
+            $this->errors['comment'] = 'Fill this field';
         }
 
         return empty($this->errors);

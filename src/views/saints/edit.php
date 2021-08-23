@@ -8,7 +8,7 @@
     </div>
 <?php endif; ?>
 <section>
-    <form action="<?= BASE_URL ?>saints/<?= $saint->getId() ?>" method="POST" enctype="multipart/form-data" id="form">
+    <form action="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>" method="POST" enctype="multipart/form-data" id="form">
         <div class="container-fluid h-custom" style="background: #2f404e; color: white; padding: 0;">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-8 col-lg-6 col-xl-7">
@@ -18,26 +18,26 @@
                                 <div class="col">
                                     <h1>
                                         <input type="hidden" name="authorship" id="authorship" value="true">
-                                        <input type="text" id="name" name="name" class="form-control form-control-lg saint-input" placeholder="Name" value="<?= old('name') ?? $saint->getName() ?>" autocomplete="off" data-toggle="tooltip" data-placement="top">
+                                        <input type="text" id="name" name="name" class="form-control form-control-lg saint-input <?= isset($errors['name']) ? 'is-invalid' : '' ?>" placeholder="Name" value="<?= old('name') ?? h($saint->getName()) ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['name']) ? $errors['name'] : '' ?>">
                                     </h1>
                                     <p class="phrase">
-                                        <input type="text" id="phrase" name="phrase" class="form-control form-control-lg saint-input phrase" placeholder="Phrase" value="<?= old('phrase') ?? $saint->getPhrase() ?>" autocomplete="off" data-toggle="tooltip" data-placement="top">
+                                        <input type="text" id="phrase" name="phrase" class="form-control form-control-lg saint-input phrase <?= isset($errors['phrase']) ? 'is-invalid' : '' ?>" placeholder="Phrase" value="<?= old('phrase') ?? h($saint->getPhrase()) ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['phrase']) ? $errors['phrase'] : '' ?>">
                                     </p>
                                     <p class="phrase">
-                                        <input type="text" name="baptism_name" class="form-control form-control-lg saint-input phrase" placeholder="Baptism Name" value="<?= old('baptism_name') ?? $saint->getBaptismName() ?>" autocomplete="off" data-toggle="tooltip" data-placement="top">
+                                        <input type="text" name="baptism_name" class="form-control form-control-lg saint-input phrase <?= isset($errors['baptism_name']) ? 'is-invalid' : '' ?>" placeholder="Baptism Name" value="<?= old('baptism_name') ?? h($saint->getBaptismName()) ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['baptism_name']) ? $errors['baptism_name'] : '' ?>">
                                     </p>
                                     <p>
                                         <span style="display: flex;">
-                                            <input type="text" name="birthdate" class="form-control form-control-lg saint-input phrase" placeholder="Birthdate" value="<?= old('birthdate') ? dateFormat(old('birthdate')) : ($saint->getBirthdate() ? dateFormat($saint->getBirthdate()) : '') ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" id="birth-date" data-mask="00/00/0000">
+                                            <input type="text" name="birthdate" class="form-control form-control-lg saint-input phrase <?= isset($errors['birthdate']) ? 'is-invalid' : '' ?>" placeholder="Birthdate" value="<?= old('birthdate') ? dateFormat(old('birthdate')) : ($saint->getBirthdate() ? h(dateFormat($saint->getBirthdate())) : '') ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" id="birth-date" data-mask="00/00/0000" title="<?= isset($errors['birthdate']) ? $errors['birthdate'] : '' ?>">
 
-                                            <input type="text" name="feast_date" class="form-control form-control-lg saint-input phrase" placeholder="Feast Date" value="<?= old('feast_date') ? dateFormat(old('feast_date')) : ($saint->getFeastDate() ? dateFormat($saint->getFeastDate()) : '') ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" id="feast-date" style="margin-left: 30px;" data-mask="00/00/0000">
+                                            <input type="text" name="feast_date" class="form-control form-control-lg saint-input phrase <?= isset($errors['feast_date']) ? 'is-invalid' : '' ?>" placeholder="Feast Date" value="<?= old('feast_date') ? dateFormat(old('feast_date')) : ($saint->getFeastDate() ? h(dateFormat($saint->getFeastDate())) : '') ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" id="feast-date" style="margin-left: 30px;" data-mask="00/00/0000" title="<?= isset($errors['feast_date']) ? $errors['feast_date'] : '' ?>">
                                         </span>
                                     </p>
                                     <p>
                                         <span style="display: flex;">
-                                            <input type="text" name="nation" class="form-control form-control-lg saint-input phrase" placeholder="Nation" value="<?= old('nation') ?? $saint->getNation() ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="">
+                                            <input type="text" name="nation" class="form-control form-control-lg saint-input phrase <?= isset($errors['nation']) ? 'is-invalid' : '' ?>" placeholder="Nation" value="<?= old('nation') ?? h($saint->getNation()) ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['nation']) ? $errors['nation'] : '' ?>">
 
-                                            <input type="text" name="city" class="form-control form-control-lg saint-input phrase" placeholder="City" value="<?= old('city') ?? $saint->getCity() ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="" style="margin-left: 30px;">
+                                            <input type="text" name="city" class="form-control form-control-lg saint-input phrase <?= isset($errors['city']) ? 'is-invalid' : '' ?>" placeholder="City" value="<?= old('city') ?? h($saint->getCity()) ?>" autocomplete="off" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['city']) ? $errors['city'] : '' ?>" style="margin-left: 30px;">
                                         </span>
                                     </p>
 
@@ -48,13 +48,12 @@
                     </section>
                 </div>
                 <div class="col-md-9 col-lg-6 col-xl-5" style="text-align: right;">
-                    <img src="<?= BASE_URL ?>images/user_uploads/<?= $saint->getPhoto() ?>" class="img-fluid" id="photo-img" alt="saint_photo" style="max-width: 750px;">
+                    <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint->getPhoto()) ?>" class="img-fluid" id="photo-img" alt="saint_photo" style="max-width: 750px;">
                 </div>
             </div>
         </div>
         <div class="fab-container">
-            <div class="fab fab-icon-holder">
-                <i class="fas fa-pencil-alt"></i></div>
+            <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
                 <ul class="fab-options">
                     <li id="submit">
                         <span class="fab-label">Update Saint</span>
@@ -94,13 +93,13 @@
             </div>
         </div>
         <div class="col-md-12 col-lg-12 col-xl-12 align-items-justify">
-            <section id="hero">
+            <section id="hero" >
                 <div class="container">
                     <div class="row">
                         <div class="col">
                             <h1>Bio</h1>
                         </div>
-                        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control form-control-lg" placeholder="Write info about this Saint" data-toggle="tooltip" data-placement="top" title=""><?= old('bio') ?? $saint->getBio() ?></textarea>
+                        <textarea name="bio" id="bio" cols="30" rows="10" class="form-control form-control-lg <?= isset($errors['bio']) ? 'is-invalid' : '' ?>" placeholder="Write info about this Saint" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['bio']) ? $errors['bio'] : '' ?>"><?= old('bio') ?? h($saint->getBio()) ?></textarea>
                     </div>
                 </div>
             </section>
@@ -110,13 +109,24 @@
                         <div class="col">
                             <h1>Prayer</h1>
                         </div>
-                        <textarea name="prayer" id="prayer" cols="30" rows="10" class="form-control form-control-lg" placeholder="Write a Prayer" data-toggle="tooltip" data-placement="top" title=""><?= old('prayer') ?? $saint->getPrayer() ?></textarea>
+                        <textarea name="prayer" id="prayer" cols="30" rows="10" class="form-control form-control-lg <?= isset($errors['prayer']) ? 'is-invalid' : '' ?>" placeholder="Write a Prayer" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['prayer']) ? $errors['prayer'] : '' ?>"><?= old('prayer') ?? h($saint->getPrayer()) ?></textarea>
                     </div>
                 </div>
             </section>
         </div>
     </form>
 </section>
+
+<?php if (auth()->getTypeId() != 1) : ?>
+    <div style="text-align-last: center;">
+        <p style="font-size: 18pt;">
+            <?= h(auth()->getName()) ?>, <?= h($saint->getName()) ?> is currently as <a style="<?= $saint->getApproved() ? 'color: limegreen;' : 'color: #757500;' ?>"><?= $saint->getApproved() ? 'approved' : 'not approved' ?></a>.
+        </p>
+        <?php if ($saint->getApproved()) : ?>
+            <p style="font-size: 18pt;">Changing it now will return it to analysis.</p>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
 
 <script src="/js/saints/edit.js"></script>
 

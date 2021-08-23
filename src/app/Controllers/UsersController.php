@@ -22,7 +22,7 @@ class UsersController
         $devotionPage = ! empty($_GET['devotionPage']) ? ((int) $_GET['devotionPage']) : 1;
         $registeredPage = ! empty($_GET['registeredPage']) ? ((int) $_GET['registeredPage']) : 1;
         $approvalPage = ! empty($_GET['approvalPage']) ? ((int) $_GET['approvalPage']) : 1;
-        $perPage = 1;
+        $perPage = 6;
 
         $devotionsPaginator = UsersDevotionSaints::getUserDevotions($userId, $perPage, $devotionPage);
         $registeredSaintsPaginator = Saint::getByUserApproved($userId, 1, $perPage, $registeredPage);

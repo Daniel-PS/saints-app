@@ -25,8 +25,12 @@ class CommentsController
             redirectWithMessage('/saints/' . $saint->getId(), 'Saint is not approved yet');
         }
 
+        $errors = Session::get('errors');
+        Session::clear('errors');
+
         view('saints/comments/create.php', [
-            'saint' => $saint
+            'saint' => $saint,
+            'errors' => $errors
         ]);
     }
 
@@ -47,7 +51,6 @@ class CommentsController
             Session::set('old_input', $_POST);
 
             redirect('/saints/' . $saintId . '/comments/create');
-            return;
         }
 
         $comment->save();
@@ -79,9 +82,13 @@ class CommentsController
             redirect('/');
         }
 
+        $errors = Session::get('errors');
+        Session::clear('errors');
+
         view('saints/comments/edit.php', [
             'saint' => $saint,
-            'comment' => $comment
+            'comment' => $comment,
+            'errors' => $errors
         ]);
     }
 
@@ -115,7 +122,6 @@ class CommentsController
             Session::set('old_input', $_POST);
 
             redirect('/saints/' . $saintId . '/comments/' . $commentId . '/edit');
-            return;
         }
 
         $comment->update();

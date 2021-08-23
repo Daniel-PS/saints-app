@@ -17,13 +17,6 @@ function view($view, $data = [])
     require VIEWS_FOLDER_PATH . '/' . $view;
 }
 
-function loadJsFile(string $file)
-{
-    echo '<script>';
-        require JS_FOLDER_PATH . '/' . $file;
-    echo '</script>';
-}
-
 function loadFileToEnvironment($filePath)
 {
     $envVars = parse_ini_file($filePath);

@@ -11,14 +11,16 @@
                 <form action="<?= BASE_URL ?>authenticate" method="POST" id="form-login">
                     <div class="form-outline mb-4">
                         <label class="form-label" for="email">Email address</label>
-                        <input type="email" id="email" name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" value="<?= old('email') ?>">
-                        <div class="invalid-feedback">
-                            Invalid email.
-                        </div>
+                        <input type="email"  name="email" class="form-control form-control-lg" placeholder="Enter a valid email address" value="<?= old('email') ?>">
                     </div>
                     <div class="form-outline mb-3">
                         <label class="form-label">Password</label>
                         <input type="password" name="password" class="form-control form-control-lg" placeholder="Enter password">
+                        <?php if (isset($errors['password'])) : ?>
+                            <div class="invalid-feedback" style="display: block;">
+                                <?= $errors['password'] ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button type="submit" class="btn btn-dark btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>

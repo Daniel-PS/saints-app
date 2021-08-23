@@ -13,7 +13,11 @@
                 <div class="cardheader">
                 </div>
                 <div class="avatar">
-                    <img alt="" src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" style="object-fit: cover;">
+                    <?php if ($user->getPhoto()) : ?>
+                        <img alt="" src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" style="object-fit: cover;">
+                    <?php else : ?>
+                        <img src="<?= BASE_URL ?>images/no_photo.jpg" style="object-fit: cover;">
+                    <?php endif; ?>
                 </div>
                 <div class="info">
                     <div class="title">

@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Session;
 use App\Models\Saint;
 use App\Models\Comment;
-use App\Models\UserType;
+use App\Models\User;
 use App\Models\UsersDevotionSaints;
 
 class SaintsController
@@ -33,7 +33,12 @@ class SaintsController
             redirect('/');
         }
 
-        view('saints/create.php');
+        $errors = Session::get('errors');
+        Session::clear('errors');
+
+        view('saints/create.php', [
+            'errors' => $errors
+        ]);
     }
 
     public function store()
@@ -128,9 +133,13 @@ class SaintsController
             redirect('/');
         }
 
-        if ($saint->getUserId() === auth()->getId() || auth()->getTypeId() == UserType::ADMIN) {
+        $errors = Session::get('errors');
+        Session::clear('errors');
+
+        if ($saint->getUserId() === auth()->getId() || auth()->getTypeId() == User::ADMIN) {
             view('saints/edit.php', [
-                'saint' => $saint
+                'saint' => $saint,
+                'errors' => $errors,
             ]);
             exit();
         } else {
@@ -147,7 +156,7 @@ class SaintsController
         $saintId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
         $saint = Saint::getById($saintId);
 
-        if (! $saint->getUserId() === auth()->getId() || ! auth()->getTypeId() == UserType::ADMIN) {
+        if (! $saint->getUserId() === auth()->getId() || ! auth()->getTypeId() == User::ADMIN) {
             redirectWithMessage('/saints/' . $saint->getId(), 'You dont have permission to edit this Saint');
         }
 
@@ -171,7 +180,12 @@ class SaintsController
         $saint->setPhrase($_POST['phrase']);
         $saint->setBio($_POST['bio']);
         $saint->setPrayer($_POST['prayer']);
-        $saint->setApproved(auth()->getTypeId() == UserType::ADMIN ? Saint::APPROVED : Saint::NOT_APPROVED);
+
+        if ($saint->getApproved() == Saint::NOT_APPROVED) {
+            $saint->setApproved(Saint::NOT_APPROVED);
+        } else {
+            $saint->setApproved(auth()->getTypeId() == User::ADMIN ? Saint::APPROVED : Saint::NOT_APPROVED);
+        }
 
         if (! $saint->hasValidEditData()) {
             $errors = $saint->getErrors();

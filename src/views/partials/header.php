@@ -55,6 +55,8 @@
                         <div class="profile-details">
                             <?php if ($user->getPhoto()) : ?>
                                 <img src="<?= BASE_URL ?>images/user_uploads/<?= h($user->getPhoto()) ?>" class="logged-user-photo" alt="user_photo">
+                            <?php else : ?>
+                                <img src="<?= BASE_URL ?>images/no_photo.jpg" class="logged-user-photo" alt="user_photo">
                             <?php endif; ?>
                             <span class="admin_name">
                                 Hail Mary,
@@ -62,7 +64,7 @@
                                     <?= h($user->getName()) ?>!
                                 </a>
                             </span>
-                            <a href="<?= BASE_URL ?>logout" style="text-decoration: none; color: #2f404e; margin-top: 32px; margin-left: -135px; font-size: 10pt;">Logout</a>
+                            <a href="<?= BASE_URL ?>logout" style="text-decoration: none; color: #2f404e; margin-top: 32px; margin-left: -130px; font-size: 10pt;">Logout</a>
                         </div>
                     <?php endif; ?>
                 </ul>

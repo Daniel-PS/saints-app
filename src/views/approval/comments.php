@@ -28,7 +28,11 @@
                                         <tr class="candidates-list">
                                             <td class="title">
                                                 <div class="thumb">
-                                                    <img class="img-fluid" src="<?= BASE_URL ?>images/user_uploads/<?= h($comment['photo']) ?>" alt="">
+                                                    <?php if ($comment['photo']) : ?>
+                                                        <img class="img-fluid" src="<?= BASE_URL ?>images/user_uploads/<?= h($comment['photo']) ?>">
+                                                    <?php else : ?>
+                                                        <img class="img-fluid" src="<?= BASE_URL ?>images/no_photo.jpg">
+                                                    <?php endif; ?>
                                                 </div>
                                                 <div class="candidate-list-details">
                                                     <div class="candidate-list-info">

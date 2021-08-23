@@ -20,11 +20,15 @@
                                     <br>
                                     <span class="citation-name">Place of Birth</span> &#8212; <?= h($saint->getCity()) ?>, <?= h($saint->getNation()) ?>
                                     <br>
-                                    <span class="citation-name">Date of Birth &#8212;</span> <?= h($saint->getBirthdate()) ?>
+                                    <span class="citation-name">Date of Birth &#8212;</span> <?= $saint->getBirthdate() ? h(dateFormat($saint->getBirthdate())) : 'Unknow' ?>
                                     <br>
-                                    <span class="citation-name">Feast Date &#8212;</span> <?= h($saint->getFeastDate()) ?>
+                                    <span class="citation-name">Feast Date &#8212;</span> <?= $saint->getFeastDate() ? h(dateFormat($saint->getFeastDate())) : 'Unknow' ?>
                                 </p>
-                                <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint->getUserId()) ?>"><?= h($saint->user_name) ?></a></p>
+                                <?php if ($saint->user_name) : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint->getUserId()) ?>"><?= h($saint->user_name) ?></a></p>
+                                <?php else : ?>
+                                    <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" style="text-decoration: none;" target="_blank">Good Samaritan</a></p>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -43,7 +47,7 @@
                         <h1>Comment</h1>
                     </div>
                     <form action="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/comments" method="POST" id="submit-comment">
-                        <textarea name="comment" id="saint-comment" cols="10" rows="10" class="form-control form-control-lg" placeholder="Write a comment" data-toggle="tooltip" data-placement="top" title=""><?= old('comment') ?></textarea>
+                        <textarea name="comment" id="saint-comment" cols="10" rows="10" class="form-control form-control-lg <?= isset($errors['comment']) ? 'is-invalid' : '' ?>"<?= old('comment') ?>" placeholder="Write a comment" data-toggle="tooltip" data-placement="top" title="<?= isset($errors['comment']) ? $errors['comment'] : '' ?>"><?= old('comment') ?></textarea>
                         <button type="submit" class="btn btn-dark btn-lg" style="margin-left: 40%; margin-top: 2%;">Add comment</button>
                     </form>
                 </div>

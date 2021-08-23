@@ -2,7 +2,7 @@
     view('partials/header.php');
 ?>
 
-<section class="vh-100" style="background-color: #eee;">
+<section style="background-color: #eee; margin-top: 70px;">
     <div class="container h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-12 col-xl-11">
@@ -18,7 +18,6 @@
                                             <label class="form-label" for="name">Your Photo</label>
                                             <div id="user-photo" style="display: none;">
                                                 <img src="" id="photo-img" name="photo" alt="user_photo" class="user-photo">
-                                                <p class="user-photo-remove-button" id="remove-user-photo">Remove</p>
                                             </div>
                                             <input type="file" name="photo" class="form-control" id="photo-input" accept="image/*" value="">
                                         </div>
@@ -27,50 +26,60 @@
                                         <i class="fas fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="name">Your Name</label>
-                                            <input type="text" name="name" id="name" class="form-control" value="<?= old('name') ?>">
-                                            <div class="invalid-feedback">
-                                                Name is required.
-                                            </div>
+                                            <input type="text" name="name" id="name" class="form-control <?= isset($errors['name']) ? 'is-invalid' : '' ?>" value="<?= old('name') ?>">
+                                            <?php if (isset($errors['name'])) : ?>
+                                                <div class="invalid-feedback" style="display: block;">
+                                                   <?= $errors['name'] ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="far fa-user fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="surname">Your Surname</label>
-                                            <input type="text" name="surname" id="surname" class="form-control" value="<?= old('surname') ?>">
-                                            <div class="invalid-feedback">
-                                                Surname is required.
-                                            </div>
+                                            <input type="text" name="surname" id="surname" class="form-control <?= isset($errors['surname']) ? 'is-invalid' : '' ?>" value="<?= old('surname') ?>">
+                                            <?php if (isset($errors['surname'])) : ?>
+                                                <div class="invalid-feedback" style="display: block;">
+                                                   <?= $errors['surname'] ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="email">Your Email</label>
-                                            <input type="email" name="email" id="email" class="form-control" value="<?= old('email') ?>">
-                                            <div class="invalid-feedback">
-                                                Invalid email.
-                                            </div>
+                                            <input type="email" name="email" id="email" class="form-control <?= isset($errors['email']) ? 'is-invalid' : '' ?>" value="<?= old('email') ?>">
+                                            <?php if (isset($errors['email'])) : ?>
+                                                <div class="invalid-feedback" style="display: block;">
+                                                   <?= $errors['email'] ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="password">Password</label>
-                                            <input type="password" name="password" id="password" class="form-control">
-                                            <div class="invalid-feedback">
-                                                Passwords does not match.
-                                            </div>
+                                            <input type="password" name="password" id="password" class="form-control <?= isset($errors['password']) ? 'is-invalid' : '' ?>">
+                                            <?php if (isset($errors['password'])) : ?>
+                                                <div class="invalid-feedback" style="display: block;">
+                                                   <?= $errors['password'] ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="d-flex flex-row align-items-center mb-4">
                                         <i class="fas fa-key fa-lg me-3 fa-fw"></i>
                                         <div class="form-outline flex-fill mb-0">
                                             <label class="form-label" for="confirm-password">Repeat your password</label>
-                                            <input type="password" name="confirm_password" id="confirm-password" class="form-control">
-                                            <div class="invalid-feedback">
-                                                Passwords does not match.
-                                            </div>
+                                            <input type="password" name="confirm_password" id="confirm-password" class="form-control <?= isset($errors['confirm_password']) ? 'is-invalid' : '' ?>">
+                                            <?php if (isset($errors['confirm_password'])) : ?>
+                                                <div class="invalid-feedback" style="display: block;">
+                                                   <?= $errors['confirm_password'] ?>
+                                                </div>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
