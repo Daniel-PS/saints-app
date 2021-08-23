@@ -107,6 +107,7 @@
                                 </li>
                                 <li class="page-item">
                                     <a class="page-link" href="<?= BASE_URL . 'saints/' . $saint->getId() . '?page=' . $commentsPaginator->getLastPage() ?>">
+                                        Last
                                     </a>
                                 </li>
                             <?php endif ?>
