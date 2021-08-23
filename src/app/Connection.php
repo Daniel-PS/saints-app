@@ -13,6 +13,7 @@ class Connection
         $dbUser = getenv('DB_USERNAME');
         $dbPassword = getenv('DB_PASSWORD');
 
-        return new PDO("mysql:host=$dbHost;dbname=$dbName", $dbUser, $dbPassword);
+        return new PDO("mysql:host=$dbHost;port=3306;dbname=$dbName", $dbUser, $dbPassword);
     }
 }
+

@@ -17,6 +17,13 @@ function view($view, $data = [])
     require VIEWS_FOLDER_PATH . '/' . $view;
 }
 
+function loadJsFile(string $file)
+{
+    echo '<script>';
+        require JS_FOLDER_PATH . '/' . $file;
+    echo '</script>';
+}
+
 function loadFileToEnvironment($filePath)
 {
     $envVars = parse_ini_file($filePath);
@@ -29,6 +36,7 @@ function loadFileToEnvironment($filePath)
 function redirect($uri)
 {
     header('Location: ' . $uri);
+    exit();
 }
 
 function redirectWithMessage($uri, $message)
@@ -82,11 +90,17 @@ function dateFormat($value, $time = false)
 {
     $time = $time ? ' H:m:s' : null;
     $newDate = DateTime::createFromFormat('Y-m-d' . $time, $value);
+
+    if (! $newDate) {
+        return $value;
+    }
+
     $newDate = $newDate->format('d/m/Y');
 
     if (strpos($newDate, '/0000')) {
         $newDate = str_replace('/0000', '', $newDate);
     }
+
 
     return $newDate;
 }

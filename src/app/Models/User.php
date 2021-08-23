@@ -223,8 +223,6 @@ class User
 
     public function update()
     {
-        $this->handlePostData();
-
         $updatedUser = [
             $this->photo,
             $this->name,
@@ -255,45 +253,6 @@ class User
         $result = $stmt->execute([$this->id]);
 
         return $result;
-    }
-
-    private function handlePostData()
-    {
-        if (auth()->getId() != $this->id) {
-            redirectWithMessage('/users/' . $this->id, 'You dont have permission to edit this comment.');
-        }
-
-        if ($_FILES['photo']['name']) {
-            $this->oldPhoto = $this->photo;
-            $this->photo = $_FILES['photo']['name'];
-        }
-
-        if ($_POST['name']) {
-            $this->name = $_POST['name'];
-        }
-
-        if ($_POST['surname']) {
-            $this->surname = $_POST['surname'];
-        }
-
-        if ($_POST['email']) {
-            $this->email = $_POST['email'];
-        }
-
-        if ($_POST['password']) {
-            if ($_POST['password'] !== $_POST['confirm_password']) {
-                Session::set('errors', [
-                    'password' => 'Passwords does not match',
-                    'confirm_password' => 'Passwords does not match',
-                ]);
-                Session::set('old_input', $_POST);
-
-                redirect('/users/' . $this->id);
-                exit();
-            }
-
-            $this->password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        }
     }
 
     public function login()

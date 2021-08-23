@@ -1,5 +1,8 @@
 <?php
-    view('partials/header.php');
+
+use App\Models\UserType;
+
+view('partials/header.php');
 ?>
 <section>
     <?php if (isset($message)) : ?>
@@ -45,16 +48,20 @@
         </div>
     </div>
     <?php if (auth()) : ?>
-        <?php if (auth()->getId() === $saint->getUserId()) : ?>
-            <div class="fab-container" style="right: 130px;">
-                <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
-                    <ul class="fab-options">
+        <div class="fab-container" style="right: 130px;">
+            <div class="fab fab-icon-holder"><i class="fas fa-pencil-alt"></i></div>
+                <ul class="fab-options">
+                    <?php if (auth()->getId() == $saint->getUserId() || auth()->getTypeId() == UserType::ADMIN) : ?>
                         <li>
-                            <span class="fab-label">Update Saint</span>
-                            <div class="fab-icon-holder">
-                                <i class="fas fa-user-edit"></i>
-                            </div>
+                            <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/edit" style="display: flex; text-decoration: none;">
+                                <span class="fab-label">Edit Saint</span>
+                                <div class="fab-icon-holder">
+                                    <i class="fas fa-user-edit"></i>
+                                </div>
+                            </a>
                         </li>
+                    <?php endif; ?>
+                    <?php if (auth()->getId() === $saint->getUserId()) : ?>
                         <li>
                             <a href="<?= BASE_URL ?>saints/<?= h($saint->getId()) ?>/remove-authorship" style="display: flex; text-decoration: none;">
                                 <span class="fab-label">Remove authorship</span>
@@ -63,10 +70,10 @@
                                 </div>
                             </a>
                         </li>
+                    <?php endif; ?>
                     </ul>
                 </div>
             </div>
-        <?php endif; ?>
     <?php endif; ?>
     <?php if (auth()) : ?>
         <div class="fab-container" id="mark-as-devoted">

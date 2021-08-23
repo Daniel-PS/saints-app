@@ -69,6 +69,35 @@ class UsersController
         $userId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
         $user = User::getById($userId);
 
+        if (auth()->getId() != $user->getId()) {
+            redirectWithMessage('/users/' . $user->getId(), 'You dont have permission to edit this comment.');
+        }
+
+        if ($_FILES['photo']['name']) {
+            $_FILES['photo']['name'] = generateUniqueName();
+
+            $user->setOldPhoto($user->getPhoto());
+            $user->setPhoto($_FILES['photo']['name']);
+        }
+
+        $user->setName($_POST['name']);
+        $user->setSurname($_POST['surname']);
+        $user->setEmail($_POST['email']);
+
+        if ($_POST['password']) {
+            if ($_POST['password'] !== $_POST['confirm_password']) {
+                Session::set('errors', [
+                    'password' => 'Passwords does not match',
+                    'confirm_password' => 'Passwords does not match',
+                ]);
+                Session::set('old_input', $_POST);
+
+                redirect('/users/' . $this->id);
+            }
+
+            $user->setPassword(password_hash($_POST['password'], PASSWORD_BCRYPT));
+        }
+
         if (! $user->hasValidEditedData()) {
             $errors = $user->getErrors();
 

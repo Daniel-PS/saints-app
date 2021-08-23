@@ -5,6 +5,7 @@ namespace App\Models;
 use DateTime;
 use App\Connection;
 use App\Paginator;
+use App\Models\UserType;
 
 class Saint
 {
@@ -24,6 +25,9 @@ class Saint
     private $created_at;
 
     private $oldPhoto;
+
+    public const NOT_APPROVED = 0;
+    public const APPROVED = 1;
 
     public static function countByApproval($approved)
     {
@@ -372,6 +376,57 @@ class Saint
         return empty($this->errors);
     }
 
+    public function hasValidEditData()
+    {
+        $this->errors = [];
+
+        if (empty($this->name)) {
+            $this->errors['name'] = 'Fill this field.';
+        }
+
+        if (! empty($this->birthdate)) {
+            if (substr_count($this->birthdate, '/') === 1) {
+                $this->birthdate = $this->birthdate . '/0000';
+            }
+
+            $birthdayDate = DateTime::createFromFormat('d/m/Y', $this->birthdate);
+
+            if (! $birthdayDate) {
+                $this->errors['birthdate'] = 'Invalid date';
+            } else {
+                $this->birthdate = $birthdayDate->format('Y-m-d');
+            }
+        }
+
+        if (! empty($this->feast_date)) {
+            if (substr_count($this->feast_date, '/') === 1) {
+                $this->feast_date = $this->feast_date . '/0000';
+            }
+
+            $feastDate = DateTime::createFromFormat('d/m/Y', $this->feast_date);
+
+            if (! $feastDate) {
+                $this->errors['feast_date'] = 'Invalid date';
+            } else {
+                $this->feast_date = $feastDate->format('Y-m-d');
+            }
+        }
+
+        if (empty($this->phrase)) {
+            $this->errors['phrase'] = 'Fill this field';
+        }
+
+        if (empty($this->bio)) {
+            $this->errors['bio'] = 'Fill this field';
+        }
+
+        if (empty($this->prayer)) {
+            $this->errors['prayer'] = 'Fill this field';
+        }
+
+        return empty($this->errors);
+    }
+
     public function save()
     {
         $this->birthdate = $this->birthdate ? $this->birthdate : null;
@@ -411,6 +466,9 @@ class Saint
 
     public function update()
     {
+        $this->birthdate = $this->birthdate ? $this->birthdate : null;
+        $this->feast_date = $this->feast_date ? $this->feast_date : null;
+
         $updatedSaint = [
             $this->user_id,
             $this->photo,
@@ -448,7 +506,7 @@ class Saint
 
         $result = $stmt->execute($updatedSaint);
 
-        if ($result) {
+        if ($result && $_FILES['photo']['name']) {
             handleUploadedFile('photo', $this->oldPhoto);
         }
 

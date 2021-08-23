@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Session;
 use App\Models\Saint;
 use App\Models\Comment;
+use App\Models\UserType;
 use App\Models\UsersDevotionSaints;
 
 class SaintsController
@@ -14,7 +15,7 @@ class SaintsController
         $page = ! empty($_GET['page']) ? ((int) $_GET['page']) : 1;
         $perPage = 10;
 
-        $saintsPaginator = Saint::getByApproval(1, $perPage, $page);
+        $saintsPaginator = Saint::getByApproval(Saint::APPROVED, $perPage, $page);
 
         $message = Session::get('message');
         Session::clear('message');
@@ -40,6 +41,7 @@ class SaintsController
         if ($_FILES['photo']['name']) {
             $_FILES['photo']['name'] = generateUniqueName();
         }
+
         $saint = new Saint();
         $saint->setUserId($_POST['authorship'] === 'true' ? auth()->getId() : null);
         $saint->setPhoto($_FILES['photo']['name']);
@@ -114,6 +116,10 @@ class SaintsController
 
     public function edit()
     {
+        if (! auth()) {
+            redirect('/');
+        }
+
         $saintId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
 
         $saint = Saint::getById($saintId);
@@ -122,7 +128,7 @@ class SaintsController
             redirect('/');
         }
 
-        if ($saint->getUserId() === auth()->getId()) {
+        if ($saint->getUserId() === auth()->getId() || auth()->getTypeId() == UserType::ADMIN) {
             view('saints/edit.php', [
                 'saint' => $saint
             ]);
@@ -134,7 +140,50 @@ class SaintsController
 
     public function update()
     {
-        //
+        if (! auth()) {
+            redirect('/');
+        }
+
+        $saintId = preg_replace('/[^0-9]/', '', $_SERVER['REQUEST_URI']);
+        $saint = Saint::getById($saintId);
+
+        if (! $saint->getUserId() === auth()->getId() || ! auth()->getTypeId() == UserType::ADMIN) {
+            redirectWithMessage('/saints/' . $saint->getId(), 'You dont have permission to edit this Saint');
+        }
+
+        if ($_FILES['photo']['name']) {
+            $_FILES['photo']['name'] = generateUniqueName();
+
+            $saint->setOldPhoto($saint->getPhoto());
+            $saint->setPhoto($_FILES['photo']['name']);
+        }
+
+        if (! $saint->getUserId() === auth()->getId()) {
+            $saint->setUserId($_POST['authorship'] === 'true' ? auth()->getId() : null);
+        }
+
+        $saint->setName($_POST['name']);
+        $saint->setBaptismName($_POST['baptism_name']);
+        $saint->setBirthdate($_POST['birthdate']);
+        $saint->setFeastDate($_POST['feast_date']);
+        $saint->setNation($_POST['nation']);
+        $saint->setCity($_POST['city']);
+        $saint->setPhrase($_POST['phrase']);
+        $saint->setBio($_POST['bio']);
+        $saint->setPrayer($_POST['prayer']);
+        $saint->setApproved(auth()->getTypeId() == UserType::ADMIN ? Saint::APPROVED : Saint::NOT_APPROVED);
+
+        if (! $saint->hasValidEditData()) {
+            $errors = $saint->getErrors();
+
+            Session::set('errors', $errors);
+            Session::set('old_input', $_POST);
+
+            redirect('/saints/' . $saintId . '/edit');
+        }
+
+        $saint->update();
+        redirectWithMessage('/saints/' . $saintId, 'Saint edited successfully!');
     }
 
     public function destroy()

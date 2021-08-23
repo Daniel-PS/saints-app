@@ -27,26 +27,34 @@
                 </div>
             </div>
             <div class="row cards">
-                <?php foreach ($saints->getItems() as $saint) : ?>
-                    <div class="col-md-4 d-flex justify-content-center">
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
-                                <h5 class="card-title">
-                                    <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
-                                </h5>
-                                <p class="card-text" style="font-style: italic;">
-                                    <?= h($saint['phrase']) ?>
-                                </p>
-                                <?php if ($saint['user_id']) : ?>
-                                    <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>" target="_blank"><?= h($saint['user_name']) ?></a></p>
-                                <?php else : ?>
-                                    <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank">Good Samaritan</a></p>
-                                <?php endif; ?>
+                <?php if (count($saints->getItems()) > 0) : ?>
+                    <?php foreach ($saints->getItems() as $saint) : ?>
+                        <div class="col-md-4 d-flex justify-content-center">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                                    <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
+                                    <h5 class="card-title">
+                                        <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
+                                    </h5>
+                                    <p class="card-text" style="font-style: italic;">
+                                        <?= h($saint['phrase']) ?>
+                                    </p>
+                                    <?php if ($saint['user_id']) : ?>
+                                        <p class="card-text">By <a href="<?= BASE_URL ?>users/<?= h($saint['user_id']) ?>" target="_blank"><?= h($saint['user_name']) ?></a></p>
+                                    <?php else : ?>
+                                        <p class="card-text">By <a href="<?= BASE_URL ?>the-good-samaritan" target="_blank">Good Samaritan</a></p>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="row">
+                        <div class="col" style="margin-left: 10px;">
+                            <h5>No Saints registered yet</h5>
+                        </div>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
     </section>
