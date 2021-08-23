@@ -14,7 +14,7 @@
                 </div>
                 <div class="avatar">
                     <?php if ($user->getPhoto()) : ?>
-                        <img alt="" src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" style="object-fit: cover;">
+                        <img src="<?= BASE_URL ?>images/user_uploads/<?= $user->getPhoto() ?>" style="object-fit: cover;">
                     <?php else : ?>
                         <img src="<?= BASE_URL ?>images/no_photo.jpg" style="object-fit: cover;">
                     <?php endif; ?>
@@ -163,44 +163,46 @@
                     </ul>
                 </nav>
                 <div id="hero">
-                    <?php if (auth()->getId() === $user->getId()) : ?>
-                        <?php if (! empty($approvalSaintsPaginator->getItems())) : ?>
-                            <section id="hero" style="padding-bottom: 0;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">Saints you registered waiting for approval (this is only visible to you)</h1>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
-                            <div class="row cards">
-                                <?php foreach ($approvalSaintsPaginator->getItems() as $saint) : ?>
-                                    <div class="col-md-4 d-flex justify-content-center">
-                                        <div class="card" style="width: 18rem;">
-                                            <div class="card-body">
-                                                <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
-                                                <h5 class="card-title">
-                                                    <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
-                                                </h5>
-                                                <p class="card-text" style="font-style: italic;">
-                                                    <?= h($saint['phrase']) ?>
-                                                </p>
+                    <?php if (auth()) : ?>
+                        <?php if (auth()->getId() === $user->getId()) : ?>
+                            <?php if (! empty($approvalSaintsPaginator->getItems())) : ?>
+                                <section id="hero" style="padding-bottom: 0;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h1 style="font-size: 18pt; text-transform: none; text-align: center;">Saints you registered waiting for approval (this is only visible to you)</h1>
                                             </div>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php else : ?>
-                            <section id="hero" style="padding-bottom: 0;">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h1 style="font-size: 18pt; text-transform: none; text-align: center;">None of the Saints you registered are needing approval (this is only visible to you)</h1>
+                                </section>
+                                <div class="row cards">
+                                    <?php foreach ($approvalSaintsPaginator->getItems() as $saint) : ?>
+                                        <div class="col-md-4 d-flex justify-content-center">
+                                            <div class="card" style="width: 18rem;">
+                                                <div class="card-body">
+                                                    <img src="<?= BASE_URL ?>images/user_uploads/<?= h($saint['photo']) ?>" alt="service" class="icon">
+                                                    <h5 class="card-title">
+                                                        <a href="<?= BASE_URL ?>saints/<?= h($saint['id']) ?>"><?= h($saint['name']) ?></a>
+                                                    </h5>
+                                                    <p class="card-text" style="font-style: italic;">
+                                                        <?= h($saint['phrase']) ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            <?php else : ?>
+                                <section id="hero" style="padding-bottom: 0;">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h1 style="font-size: 18pt; text-transform: none; text-align: center;">None of the Saints you registered are needing approval (this is only visible to you)</h1>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </section>
+                                </section>
+                            <?php endif; ?>
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
