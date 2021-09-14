@@ -1,8 +1,8 @@
 CREATE TABLE `user_types` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `type` varchar(60),
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `users` (
@@ -13,8 +13,8 @@ CREATE TABLE `users` (
   `surname` varchar(60),
   `email` varchar(60),
   `password` varchar(60),
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `saints` (
@@ -31,8 +31,8 @@ CREATE TABLE `saints` (
   `bio` longtext,
   `prayer` longtext,
   `approved` tinyint DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `comments` (
@@ -41,16 +41,16 @@ CREATE TABLE `comments` (
   `saint_id` int,
   `comment` longtext,
   `approved` tinyint DEFAULT 0,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `users_devotion_saints` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `user_id` int,
   `saint_id` int,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 ALTER TABLE saints_db.users ADD CONSTRAINT users_FK FOREIGN KEY (user_type_id) REFERENCES saints_db.user_types(id) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -67,6 +67,6 @@ ALTER TABLE saints_db.comments ADD CONSTRAINT comments_FK_1 FOREIGN KEY (saint_i
 
 INSERT INTO saints_db.user_types (`type`, created_at, updated_at) VALUES ('Admin', NULL, NULL),	 ('Normal', NULL, NULL);
 
-INSERT INTO saints_db.user_types (type) VALUES ('Admin'), ('Normal');
-
 INSERT INTO saints_db.users (user_type_id, photo, name, surname, email, password) VALUES (1, NULL, 'Daniel', 'Pereira', 'daniel.per.s@hotmail.com', '$2y$10$qQjKC7g.YgX8jyDGVqxoBuf8i/zpDZo8oVSvdcgEzKhn62MDI60Zy');
+
+-- Senha: teste
